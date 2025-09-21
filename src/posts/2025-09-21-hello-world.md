@@ -45,7 +45,7 @@ ping -c 4 google.com  # Test connectivity
 ```
 
 ```python
-# Python example: Simple script to monitor disk usage
+# Python example: Simple script to monitor disk usageipt to monitor disk usageipt to monitor disk usageipt to monitor disk usageipt to monitor disk usageipt to monitor disk usageipt to monitor disk usage
 import os
 import shutil
 total, used, free = shutil.disk_usage("/")
