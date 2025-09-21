@@ -93,4 +93,4 @@ Stay tuned for more technical content, and feel free to reach out with questions
 
 ---
 
-*Follow me on [GitHub](https://github.com/keanu) for code examples and configurations mentioned in these posts.*
+*Follow me on [GitHub](https://github.com/keanufuchs) for code examples and configurations mentioned in these posts.*
