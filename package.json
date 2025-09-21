@@ -8,8 +8,10 @@
   "scripts": {
     "dev": "npx @11ty/eleventy --serve",
     "build": "npx @11ty/eleventy",
+    "build:prod": "npm run clean && npx @11ty/eleventy",
     "clean": "rm -rf _site",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "preview": "npm run build:prod && npx @11ty/eleventy --serve"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0"
