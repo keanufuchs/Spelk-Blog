@@ -169,7 +169,167 @@
         border-radius: 0.75rem 0.75rem 0 0;
       }
       
-      /* Prose Text Farben für Dark Mode */
+    /* Copy button styling */
+    .code-block-wrapper {
+      position: relative;
+    }
+    
+    .copy-button {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(75, 85, 99, 0.9);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      opacity: 0;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(4px);
+      z-index: 10;
+    }
+    
+    .code-block-wrapper:hover .copy-button {
+      opacity: 1;
+    }
+    
+    .copy-button:hover {
+      background: rgba(55, 65, 81, 0.95);
+      transform: translateY(-1px);
+    }
+    
+    .copy-button.copied {
+      background: rgba(16, 185, 129, 0.9);
+    }
+    
+    .copy-button svg {
+      flex-shrink: 0;
+    }
+    
+    /* Dark mode copy button adjustments */
+    .dark .copy-button {
+      background: rgba(31, 41, 55, 0.9);
+      color: #e5e7eb;
+    }
+    
+    .dark .copy-button:hover {
+      background: rgba(17, 24, 39, 0.95);
+    }
+    
+    .dark .copy-button.copied {
+      background: rgba(16, 185, 129, 0.9);
+      color: white;
+    }
+
+    /* Image zoom functionality */
+    .zoomable-image {
+      cursor: zoom-in;
+      border-radius: 8px;
+    }
+    
+    /* Image modal/overlay */
+    .image-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    
+    .image-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .image-modal-content {
+      position: relative;
+      max-width: 95vw;
+      max-height: 95vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .image-modal img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      cursor: zoom-out;
+      transition: transform 0.3s ease;
+    }
+    
+    .image-modal-close {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #374151;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      z-index: 10001;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(4px);
+    }
+    
+    .image-modal-close:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.1);
+    }
+    
+    .dark .image-modal-close {
+      background: rgba(31, 41, 55, 0.9);
+      color: #e5e7eb;
+    }
+    
+    .dark .image-modal-close:hover {
+      background: rgba(31, 41, 55, 1);
+    }
+    
+    /* Loading spinner for images */
+    .image-loading {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Prevent body scroll when modal is open */
+    body.modal-open {
+      overflow: hidden;
+    }      /* Prose Text Farben für Dark Mode */
       @media (prefers-color-scheme: dark) {
         .prose {
           color: #e5e7eb !important;
@@ -568,5 +728,258 @@
       // Set initial state (backup in case the inline script didn't work)
       handleColorSchemeChange(mediaQuery);
     }
+    
+    // Copy to clipboard functionality
+    function addCopyButtons() {
+      const codeBlocks = document.querySelectorAll('pre[class*="language-"], pre:not([class*="language-"])');
+      
+      codeBlocks.forEach((codeBlock) => {
+        // Skip if already wrapped
+        if (codeBlock.parentElement.classList.contains('code-block-wrapper')) {
+          return;
+        }
+        
+        // Create wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+        
+        // Create copy button
+        const copyButton = document.createElement('button');
+        copyButton.className = 'copy-button';
+        copyButton.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+          </svg>
+          Copy
+        `;
+        
+        // Add click handler
+        copyButton.addEventListener('click', async () => {
+          const code = codeBlock.querySelector('code');
+          const text = code ? code.textContent : codeBlock.textContent;
+          
+          try {
+            await navigator.clipboard.writeText(text);
+            
+            // Show success state
+            copyButton.innerHTML = `
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+              Copied!
+            `;
+            copyButton.classList.add('copied');
+            
+            // Reset after 2 seconds
+            setTimeout(() => {
+              copyButton.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                </svg>
+                Copy
+              `;
+              copyButton.classList.remove('copied');
+            }, 2000);
+            
+          } catch (err) {
+            console.error('Failed to copy text: ', err);
+            
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+              document.execCommand('copy');
+              copyButton.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+                Copied!
+              `;
+              copyButton.classList.add('copied');
+              
+              setTimeout(() => {
+                copyButton.innerHTML = `
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                  </svg>
+                  Copy
+                `;
+                copyButton.classList.remove('copied');
+              }, 2000);
+            } catch (fallbackErr) {
+              console.error('Fallback copy failed: ', fallbackErr);
+            }
+            
+            document.body.removeChild(textArea);
+          }
+        });
+        
+        // Wrap the code block
+        codeBlock.parentNode.insertBefore(wrapper, codeBlock);
+        wrapper.appendChild(codeBlock);
+        wrapper.appendChild(copyButton);
+      });
+    }
+    
+    // Image zoom functionality
+    function addImageZoom() {
+      const images = document.querySelectorAll('img:not(.no-zoom)');
+      
+      images.forEach((img) => {
+        // Skip if already processed
+        if (img.classList.contains('zoomable-image')) {
+          return;
+        }
+        
+        // Add zoomable class and click handler
+        img.classList.add('zoomable-image');
+        
+        img.addEventListener('click', (e) => {
+          e.preventDefault();
+          openImageModal(img);
+        });
+      });
+    }
+    
+    function openImageModal(img) {
+      // Create modal if it doesn't exist
+      let modal = document.getElementById('image-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'image-modal';
+        modal.className = 'image-modal';
+        
+        const modalContent = document.createElement('div');
+        modalContent.className = 'image-modal-content';
+        
+        const closeButton = document.createElement('button');
+        closeButton.className = 'image-modal-close';
+        closeButton.innerHTML = '×';
+        closeButton.setAttribute('aria-label', 'Close image');
+        
+        const loadingSpinner = document.createElement('div');
+        loadingSpinner.className = 'image-loading';
+        
+        modalContent.appendChild(closeButton);
+        modalContent.appendChild(loadingSpinner);
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+        
+        // Close modal handlers
+        closeButton.addEventListener('click', closeImageModal);
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            closeImageModal();
+          }
+        });
+        
+        // Keyboard handler
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeImageModal();
+          }
+        });
+      }
+      
+      const modalContent = modal.querySelector('.image-modal-content');
+      const loadingSpinner = modal.querySelector('.image-loading');
+      const closeButton = modal.querySelector('.image-modal-close');
+      
+      // Remove existing image if any
+      const existingImg = modalContent.querySelector('img');
+      if (existingImg) {
+        existingImg.remove();
+      }
+      
+      // Show loading spinner
+      loadingSpinner.style.display = 'block';
+      
+      // Create new image
+      const modalImg = document.createElement('img');
+      modalImg.style.display = 'none';
+      
+      modalImg.onload = () => {
+        loadingSpinner.style.display = 'none';
+        modalImg.style.display = 'block';
+      };
+      
+      modalImg.onerror = () => {
+        loadingSpinner.style.display = 'none';
+        console.error('Failed to load image for modal');
+        closeImageModal();
+      };
+      
+      modalImg.addEventListener('click', closeImageModal);
+      
+      // Set image source and alt
+      modalImg.src = img.src;
+      modalImg.alt = img.alt || 'Zoomed image';
+      
+      modalContent.appendChild(modalImg);
+      
+      // Show modal
+      document.body.classList.add('modal-open');
+      modal.classList.add('active');
+    }
+    
+    function closeImageModal() {
+      const modal = document.getElementById('image-modal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
+    }    // Initialize copy buttons when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        addCopyButtons();
+        addImageZoom();
+      });
+    } else {
+      addCopyButtons();
+      addImageZoom();
+    }
+    
+    // Re-initialize copy buttons and image zoom after any dynamic content changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          // Check if any new code blocks were added
+          const hasNewCodeBlocks = Array.from(mutation.addedNodes).some(node => 
+            node.nodeType === 1 && (
+              node.querySelector && node.querySelector('pre[class*="language-"], pre:not([class*="language-"])') ||
+              node.tagName === 'PRE'
+            )
+          );
+          
+          // Check if any new images were added
+          const hasNewImages = Array.from(mutation.addedNodes).some(node => 
+            node.nodeType === 1 && (
+              node.querySelector && node.querySelector('img') ||
+              node.tagName === 'IMG'
+            )
+          );
+          
+          if (hasNewCodeBlocks) {
+            setTimeout(addCopyButtons, 100); // Small delay to ensure Prism.js has processed
+          }
+          
+          if (hasNewImages) {
+            setTimeout(addImageZoom, 100); // Small delay to ensure images are loaded
+          }
+        }
+      });
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
   </script>
 </html>
