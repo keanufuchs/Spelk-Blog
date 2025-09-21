@@ -1,0 +1,20 @@
+{
+  "name": "keanu-tech-blog",
+  "version": "1.0.0",
+  "description": "Keanu's Tech Blog - Linux, Cisco, and DevOps insights",
+  "homepage": "https://blog.spelk.de",
+  "author": "Keanu Fuchs",
+  "private": true,
+  "scripts": {
+    "dev": "npx @11ty/eleventy --serve",
+    "build": "npx @11ty/eleventy",
+    "clean": "rm -rf _site",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
