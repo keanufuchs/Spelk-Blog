@@ -31,6 +31,31 @@
         }
       }
     </script>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyBVS_2IzkXRRY43lSNWLln3zQ2ggC6keFc",
+        authDomain: "spelk-blog.firebaseapp.com",
+        projectId: "spelk-blog",
+        storageBucket: "spelk-blog.firebasestorage.app",
+        messagingSenderId: "935930022640",
+        appId: "1:935930022640:web:3bd607cebe38e63bbd5035",
+        measurementId: "G-SN5LRG701M"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
