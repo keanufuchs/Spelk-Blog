@@ -5,11 +5,12 @@ title: "Keanu's Tech Blog"
 
 <div class="text-center mb-12">
   <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-    Welcome to My Tech Blog
+    When Google Doesn't Have The Answer
   </h1>
   <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-    Exploring the world of technology, from Linux system administration to network engineering with Cisco. 
-    Sharing knowledge, tutorials, and real-world experiences.
+    We've all been there - your computer does something weird, you search online for hours, but nothing works. 
+    <span class="text-blue-600 dark:text-blue-400 font-medium">Here are the solutions I found</span> 
+    when the usual help sites came up empty.
   </p>
 </div>
 
@@ -23,40 +24,35 @@ title: "Keanu's Tech Blog"
     </h2>
     
     <div class="space-y-6">
-      <!-- Tech Post Card -->
-      <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200 border-l-4 border-blue-500">
+      {%- for post in collections.posts -%}
+      <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200 border-l-4 border-blue-500 cursor-pointer hover:shadow-lg transform hover:-translate-y-1" onclick="window.location.href='{{ post.url }}'">
         <div class="flex items-start justify-between">
           <div class="flex-1">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              <a href="/posts/2025-09-21-hello-world/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
-                Getting Started with Linux System Administration
-              </a>
+              <span class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">
+                {{ post.data.title }}
+              </span>
             </h3>
             <p class="text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
-              Welcome to my tech blog! This is my first post where I'll share insights about Linux, network engineering, 
-              and system administration from real-world experience.
+              {{ post.templateContent | excerpt }}
             </p>
             <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-              <time datetime="2025-09-21">September 21, 2025</time>
+              <time datetime="{{ post.data.date | date: '%Y-%m-%d' }}">{{ post.data.date | date: '%B %d, %Y' }}</time>
               <span class="mx-2">•</span>
-              <span>Linux</span>
-            </div>
-            <div class="flex space-x-2">
-              <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
-                Linux
-              </span>
-              <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                Tutorial
-              </span>
+              <span>Tech Post</span>
             </div>
           </div>
-          <div class="ml-4">
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
-              New
-            </span>
+          <div class="ml-4 flex flex-col items-end">
+            <div class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center space-x-2 shadow-sm">
+              <span>Read more</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </div>
           </div>
         </div>
       </article>
+      {%- endfor -%}
     </div>
   </section>
 </div>
