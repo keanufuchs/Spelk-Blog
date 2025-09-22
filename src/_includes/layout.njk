@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=0.8,maximum-scale=5.0,user-scalable=yes" />
     <title>{{ title or "SpelkBlog" }}</title>
-    
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+
     <!-- Prevent flash of white content in dark mode -->
     <script>
       (function() {
@@ -54,9 +55,6 @@
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
-
-      console.log('Firebase app', app);
-      console.log('Analytics', analytics);
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
