@@ -1,6 +1,6 @@
 ---
 layout: layout.njk
-title: "SpelkBlog - Keanu's Tech Blog"
+title: "SpelkBlog - Home"
 ---
 
 <div class="text-center mb-12">
