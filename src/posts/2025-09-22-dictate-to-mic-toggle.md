@@ -32,7 +32,7 @@ In Karabiner:
 Why F20? My Mac doesn’t have an actual F20 key, so it won’t conflict with anything. The original F5 function is still accessible via `Fn + F5` because my Mac is configured to require `Fn` for function keys by default.
 
 Here’s a visual of my Karabiner configuration:
-![Karabiner F5 to F20 configuration](/assets/images/2025-09-21-dictate-to-mic-toggle/karabiner-config.png)
+![Karabiner F5 to F20 configuration](/assets/images/2025-09-22-dictate-to-mic-toggle/karabiner-config.png)
 
 ---
 
