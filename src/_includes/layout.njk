@@ -498,29 +498,82 @@
         }
       }
       
-      /* Lists */
+      /* Lists Enhanced */
       .prose ul, .prose ol {
-        margin: 1.5rem 0 !important;
-        padding-left: 2rem !important;
+        margin: 2rem 0 !important;
+        padding-left: 0 !important;
+        list-style: none !important;
       }
       
       .prose ul li {
-        margin: 0.5rem 0 !important;
+        margin: 0.75rem 0 !important;
         position: relative !important;
+        padding-left: 2rem !important;
+        line-height: 1.6 !important;
       }
       
-      .prose ul li::marker {
-        color: #3b82f6 !important;
-        font-size: 1.2em !important;
+      .prose ul li::before {
+        content: '' !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0.5em !important;
+        width: 8px !important;
+        height: 8px !important;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+        border-radius: 50% !important;
+        transform: translateY(-50%) !important;
+        box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3) !important;
       }
       
       .prose ol li {
-        margin: 0.5rem 0 !important;
+        margin: 0.75rem 0 !important;
+        position: relative !important;
+        padding-left: 2.5rem !important;
+        line-height: 1.6 !important;
+        counter-increment: list-counter !important;
       }
       
-      .prose ol li::marker {
-        color: #3b82f6 !important;
+      .prose ol {
+        counter-reset: list-counter !important;
+      }
+      
+      .prose ol li::before {
+        content: counter(list-counter) !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 0.75rem !important;
         font-weight: 600 !important;
+        box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3) !important;
+      }
+      
+      /* Nested Lists */
+      .prose ul ul li::before {
+        background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
+        width: 6px !important;
+        height: 6px !important;
+      }
+      
+      .prose ul ul ul li::before {
+        background: linear-gradient(135deg, #ec4899, #f59e0b) !important;
+        width: 4px !important;
+        height: 4px !important;
+      }
+      
+      /* Dark Mode Lists */
+      @media (prefers-color-scheme: dark) {
+        .prose ul li::before,
+        .prose ol li::before {
+          box-shadow: 0 2px 4px rgba(59, 130, 246, 0.5) !important;
+        }
       }
       
       /* Blockquotes Enhanced */
