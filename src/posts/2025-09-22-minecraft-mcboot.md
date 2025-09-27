@@ -80,21 +80,28 @@ try = ["limbo", "main"]
 
 This configuration creates a fallback hierarchy where players initially connect to the local `limbo` server, then get automatically transferred to the `main` server once it becomes available. The modern forwarding mode ensures player data integrity throughout the process.
     
-
 ---
 
 ## Automating Player Transfers with VelocityLimboHandler
 
-Automatically move players from Limbo to the main server when it’s online:
+To ensure players are automatically moved from the Limbo server to the main server as soon as it’s online:
 
-1. Place [VelocityLimboHandler](https://hangar.papermc.io/AkselGlyholt/VelocityLimboHandler) in `/plugins` of the Velocity proxy
-    
-2. On first start, it generates configuration files
-    
+1. Download and place [VelocityLimboHandler](https://hangar.papermc.io/AkselGlyholt/VelocityLimboHandler) into the `/plugins` folder of your Velocity proxy.
+2. On the first startup, the plugin automatically generates its configuration files.
 
 `plugins/velocity-limbo-handler/config.yml`:
 
-With a 1-second check interval, players experience minimal delay when transitioning from lobby to the main game world.
+```yaml
+limbo-name: limbo
+direct-connect-server: main
+task-interval: 1
+```
+
+* **limbo-name**: Name of the fallback/lobby server
+* **direct-connect-server**: Target server (Main)
+* **task-interval**: Interval in seconds to check if the main server is online
+
+> With a 1-second check interval, players experience minimal delay when transitioning from the lobby (Limbo) to the main game world, providing a seamless and responsive experience.
 
 ---
 
@@ -119,7 +126,7 @@ sudo apt install screen
 ```
     
 
-### Python Script Placeholder
+### Python Script to handle the Logic
 
 ```python
 #!/usr/bin/env python3
