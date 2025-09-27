@@ -4,7 +4,7 @@ date: 2025-09-27
 layout: post.njk
 ---
 
-Minecraft servers need a lot of performance, especially with multiple players, plugins, and large worlds. However, an enterprise blade server running 24/7 consumes significant power.
+Minecraft servers need a lot of performance, especially with multiple players, plugins, and large worlds. However, an enterprise blade server running 24/7 consumes significant power. So I devised a solution to optimize resource usage while ensuring a seamless experience for players.
 
 **My Hardware Setup**
 
