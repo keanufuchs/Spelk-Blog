@@ -72,6 +72,7 @@
       /* Prevent flash of white content - immediate dark mode styles */
       :root {
         color-scheme: light dark;
+        --header-height: 85px;
       }
       
       @media (prefers-color-scheme: dark) {
@@ -251,6 +252,209 @@
     .dark .copy-button.copied {
       background: rgba(16, 185, 129, 0.9);
       color: white;
+    }
+
+    /* Table of Contents Styles */
+    .toc-nav {
+      position: fixed;
+      top: calc(var(--header-height, 80px) + 20px);
+      right: 30px;
+      width: 200px;
+      max-height: calc(100vh - var(--header-height, 80px) - 60px);
+      background: transparent;
+      border: none;
+      padding: 0;
+      z-index: 100;
+      font-family: inherit;
+    }
+    
+    .toc-header {
+      margin-bottom: 8px;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+    
+    .toc-header h3 {
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      color: #374151 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      line-height: 1.5 !important;
+      letter-spacing: normal !important;
+      text-transform: none !important;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-header h3 {
+        color: #d1d5db !important;
+      }
+    }
+    
+    .toc-list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      max-height: calc(100vh - var(--header-height, 80px) - 100px);
+      overflow-y: auto;
+      border-left: 1px solid #e5e7eb;
+      padding-left: 0 !important;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-list {
+        border-left-color: #374151;
+      }
+    }
+    
+    /* Scrollbar für TOC Liste */
+    .toc-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    .toc-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .toc-list::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.5);
+      border-radius: 2px;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-list::-webkit-scrollbar-thumb {
+        background: rgba(107, 114, 128, 0.5);
+      }
+    }
+    
+    .toc-item {
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none;
+      position: relative;
+    }
+    
+    .toc-item.active::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #3b82f6;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-item.active::before {
+        background: #60a5fa;
+      }
+    }
+    
+    .toc-link {
+      display: block !important;
+      padding: 2px 0 2px 16px !important;
+      color: #6b7280 !important;
+      text-decoration: none !important;
+      font-size: 0.8125rem !important;
+      line-height: 1.5 !important;
+      transition: color 0.15s ease !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      background: none !important;
+      -webkit-background-clip: unset !important;
+      background-clip: unset !important;
+      -webkit-text-fill-color: unset !important;
+      border-radius: 0;
+      font-weight: 400 !important;
+    }
+    
+    .toc-link::after {
+      display: none !important;
+    }
+    
+    .toc-link:hover {
+      color: #374151 !important;
+      background: none !important;
+      -webkit-text-fill-color: unset !important;
+    }
+    
+    .toc-item.active .toc-link {
+      color: #3b82f6 !important;
+      font-weight: 500 !important;
+      background: none !important;
+      -webkit-text-fill-color: unset !important;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-link {
+        color: #9ca3af !important;
+      }
+      
+      .toc-link:hover {
+        color: #d1d5db !important;
+      }
+      
+      .toc-item.active .toc-link {
+        color: #60a5fa !important;
+      }
+    }
+    
+    /* Einrückung für verschiedene Heading-Level */
+    .toc-h1 .toc-link {
+      padding-left: 16px !important;
+      font-weight: 500 !important;
+    }
+    
+    .toc-h2 .toc-link {
+      padding-left: 24px !important;
+    }
+    
+    .toc-h3 .toc-link {
+      padding-left: 32px !important;
+      font-size: 0.75rem !important;
+      opacity: 0.9;
+    }
+    
+    .toc-h4 .toc-link {
+      padding-left: 40px !important;
+      font-size: 0.75rem !important;
+      opacity: 0.8;
+    }
+    
+    /* Responsive Verhalten */
+    @media (max-width: 1200px) {
+      .toc-nav {
+        display: none;
+      }
+    }
+    
+    /* Mobile Toggle für kleinere Bildschirme */
+    @media (max-width: 768px) {
+      .toc-nav {
+        position: fixed;
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        left: 20px;
+        max-width: none;
+        transform: translateY(calc(100% - 60px));
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .toc-nav.expanded {
+        transform: translateY(0);
+        display: block;
+      }
+      
+      .toc-nav:hover {
+        transform: translateY(calc(100% - 60px));
+      }
+      
+      .toc-nav.expanded:hover {
+        transform: translateY(0);
+      }
     }
 
     /* Image zoom functionality */
@@ -516,7 +720,7 @@
         content: '' !important;
         position: absolute !important;
         left: 0 !important;
-        top: 0.5em !important;
+        top: 0.6rem !important;
         width: 8px !important;
         height: 8px !important;
         background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
@@ -541,7 +745,7 @@
         content: counter(list-counter) !important;
         position: absolute !important;
         left: 0 !important;
-        top: 0 !important;
+        top: 0.1rem !important;
         width: 1.5rem !important;
         height: 1.5rem !important;
         background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
@@ -1014,15 +1218,129 @@
         modal.classList.remove('active');
         document.body.classList.remove('modal-open');
       }
+    }
+    
+    // Table of Contents Functionality
+    function generateTableOfContents() {
+      const toc = document.getElementById('toc');
+      const tocList = document.getElementById('toc-list');
+      const content = document.getElementById('post-content');
+      
+      if (!toc || !tocList || !content) {
+        return; // Not on a post page
+      }
+      
+      const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      
+      if (headings.length === 0) {
+        toc.style.display = 'none';
+        return;
+      }
+      
+      // Clear existing TOC
+      tocList.innerHTML = '';
+      
+      // Generate TOC items (no title link)
+      const tocItems = [];
+      headings.forEach((heading, index) => {
+        // Create unique ID if not exists
+        if (!heading.id) {
+          const id = heading.textContent
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '');
+          heading.id = id || `heading-${index}`;
+        }
+        
+        const level = parseInt(heading.tagName.charAt(1));
+        const text = heading.textContent.trim();
+        const id = heading.id;
+        
+        const li = document.createElement('li');
+        li.className = `toc-item toc-h${level}`;
+        
+        const link = document.createElement('a');
+        link.href = `#${id}`;
+        link.className = 'toc-link';
+        link.textContent = text;
+        link.title = text; // Tooltip for longer titles
+        
+        // Smooth scroll behavior
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById(id);
+          if (target) {
+            const yOffset = -80; // Offset for fixed header
+            const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        });
+        
+        li.appendChild(link);
+        tocList.appendChild(li);
+        tocItems.push({ element: li, heading: heading });
+      });
+      
+      // Setup scroll spy
+      setupScrollSpy(tocItems);
+    }
+    
+    function setupScrollSpy(tocItems) {
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -35% 0px',
+        threshold: 0
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const tocItem = tocItems.find(item => item.heading === entry.target);
+          if (tocItem) {
+            if (entry.isIntersecting) {
+              // Remove active from all items
+              tocItems.forEach(item => item.element.classList.remove('active'));
+              
+              // Add active to current item
+              tocItem.element.classList.add('active');
+              
+              // Scroll TOC to keep active item visible
+              tocItem.element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'nearest'
+              });
+            }
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all headings
+      tocItems.forEach(item => observer.observe(item.heading));
+    }
+    
+    // Hide TOC on non-post pages
+    function hideTocOnNonPostPages() {
+      const toc = document.getElementById('toc');
+      const content = document.getElementById('post-content');
+      
+      if (toc && !content) {
+        toc.style.display = 'none';
+      }
     }    // Initialize copy buttons when DOM is ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
         addCopyButtons();
         addImageZoom();
+        generateTableOfContents();
+        hideTocOnNonPostPages();
       });
     } else {
       addCopyButtons();
       addImageZoom();
+      generateTableOfContents();
+      hideTocOnNonPostPages();
     }
     
     // Re-initialize copy buttons and image zoom after any dynamic content changes

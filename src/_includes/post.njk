@@ -2,6 +2,16 @@
 layout: layout.njk
 ---
 
+<!-- Table of Contents - Fixed Right -->
+<nav id="toc" class="toc-nav">
+  <div class="toc-header">
+    <h3>On this page</h3>
+  </div>
+  <ul id="toc-list" class="toc-list">
+    <!-- TOC wird dynamisch generiert -->
+  </ul>
+</nav>
+
 <article class="prose prose-lg max-w-none">
   <header class="mb-8 pb-6 border-b border-gray-200 dark:border-gray-700">
     <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4 leading-tight !mt-0">{{ title }}</h1>
@@ -14,10 +24,19 @@ layout: layout.njk
     </div>
   </header>
 
-  <div class="prose prose-lg max-w-none">
+  <div class="prose prose-lg max-w-none" id="post-content">
     {{ content | safe }}
   </div>
 </article>
+
+<nav class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+  <a href="/" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200">
+    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    </svg>
+    Back to Home
+  </a>
+</nav>
 
 <nav class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
   <a href="/" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200">
