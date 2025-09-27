@@ -72,7 +72,22 @@
       /* Prevent flash of white content - immediate dark mode styles */
       :root {
         color-scheme: light dark;
-        --header-height: 85px;
+        --header-height: 65px;
+      }
+      
+      /* Prevent bounce scrolling effect */
+      html {
+        overscroll-behavior-y: none;
+        scroll-behavior: smooth;
+      }
+      
+      body {
+        overscroll-behavior-y: none;
+      }
+      }
+      
+      body {
+        overscroll-behavior-y: none;
       }
       
       @media (prefers-color-scheme: dark) {
@@ -935,29 +950,29 @@
       }
     </style>
   </head>
-  <body class="bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 leading-relaxed transition-colors duration-300">
+  <body class="bg-gray-50 dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100 leading-relaxed transition-colors duration-300">
     <div class="min-h-screen flex flex-col">
       <!-- Header -->
-      <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 relative transition-colors duration-300">
+      <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 relative transition-colors duration-300">
         <!-- Charakteristischer Akzent-Balken -->
-        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+        <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
         
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center py-6">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
+          <div class="flex justify-between items-center py-4">
+            <h1 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
               <!-- Logo/Icon -->
-              <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center shadow-sm">
-                <span class="text-white font-bold text-sm">KF</span>
+              <div class="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md mr-3 flex items-center justify-center shadow-sm">
+                <span class="text-white font-bold text-xs">KF</span>
               </div>
               <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
                 SpelkBlog
               </a>
             </h1>
             <nav class="hidden sm:block">
-              <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+              <a href="/" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">
                 Home
               </a>
-              <a href="/about" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+              <a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">
                 About
               </a>
             </nav>
@@ -966,22 +981,20 @@
       </header>
 
       <!-- Main Content -->
-      <main class="flex-1 px-4 sm:px-6 lg:px-8 py-8">
+      <main class="flex-1 px-6 lg:px-8 py-6">
         <div class="max-w-4xl mx-auto">
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 sm:p-8 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
-            {{ content | safe }}
-          </div>
+          {{ content | safe }}
         </div>
       </main>
 
       <!-- Footer -->
-      <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16 transition-colors duration-300">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div class="flex flex-col sm:flex-row justify-between items-center">
-            <p class="text-gray-600 dark:text-gray-300 text-sm">
+      <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-16 transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8 py-6">
+          <div class="flex flex-col sm:flex-row justify-between items-center text-sm">
+            <p class="text-gray-600 dark:text-gray-400">
               © 2025 — <span class="font-medium">Keanu Fuchs</span>
             </p>
-            <p class="text-gray-500 dark:text-gray-400 text-xs mt-2 sm:mt-0">
+            <p class="text-gray-500 dark:text-gray-500 text-xs mt-2 sm:mt-0">
               Built with ❤️ and Eleventy
             </p>
           </div>
@@ -1240,6 +1253,28 @@
       // Clear existing TOC
       tocList.innerHTML = '';
       
+      // Add title link at the top
+      const titleElement = document.querySelector('article header h1');
+      if (titleElement) {
+        const titleLi = document.createElement('li');
+        titleLi.className = 'toc-item toc-title-item';
+        
+        const titleLink = document.createElement('a');
+        titleLink.href = '#';
+        titleLink.className = 'toc-link';
+        titleLink.textContent = titleElement.textContent.trim();
+        titleLink.title = 'Zurück zum Anfang';
+        
+        // Scroll to top behavior without bounce
+        titleLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        titleLi.appendChild(titleLink);
+        tocList.appendChild(titleLi);
+      }
+      
       // Generate TOC items (no title link)
       const tocItems = [];
       headings.forEach((heading, index) => {
@@ -1267,14 +1302,15 @@
         link.textContent = text;
         link.title = text; // Tooltip for longer titles
         
-        // Smooth scroll behavior
+        // Smooth scroll behavior without bounce
         link.addEventListener('click', (e) => {
           e.preventDefault();
           const target = document.getElementById(id);
           if (target) {
             const yOffset = -80; // Offset for fixed header
             const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({ top: y, behavior: 'smooth' });
+            const clampedY = Math.max(0, y); // Prevent negative scroll values
+            window.scrollTo({ top: clampedY, behavior: 'smooth' });
           }
         });
         
@@ -1288,6 +1324,8 @@
     }
     
     function setupScrollSpy(tocItems) {
+      const titleItem = document.querySelector('.toc-title-item');
+      
       const observerOptions = {
         root: null,
         rootMargin: '-20% 0px -35% 0px',
@@ -1299,8 +1337,9 @@
           const tocItem = tocItems.find(item => item.heading === entry.target);
           if (tocItem) {
             if (entry.isIntersecting) {
-              // Remove active from all items
+              // Remove active from all items including title
               tocItems.forEach(item => item.element.classList.remove('active'));
+              if (titleItem) titleItem.classList.remove('active');
               
               // Add active to current item
               tocItem.element.classList.add('active');
@@ -1315,6 +1354,31 @@
           }
         });
       }, observerOptions);
+      
+      // Additional scroll listener to handle top of page (prevent bounce)
+      let ticking = false;
+      function handleScroll() {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // If we're at the very top (within 100px), activate title
+            if (scrollTop < 100 && titleItem) {
+              // Remove active from all heading items
+              tocItems.forEach(item => item.element.classList.remove('active'));
+              titleItem.classList.add('active');
+            }
+            
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+      
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      
+      // Initial check
+      handleScroll();
       
       // Observe all headings
       tocItems.forEach(item => observer.observe(item.heading));
