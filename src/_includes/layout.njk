@@ -77,12 +77,146 @@
       
       /* Prevent bounce scrolling effect */
       html {
-        overscroll-behavior-y: none;
         scroll-behavior: smooth;
       }
       
-      body {
-        overscroll-behavior-y: none;
+      /* Prevent specific elements from bouncing */
+      .overscroll-behavior-none,
+      header[class*="fixed"],
+      .toc-nav {
+        overscroll-behavior: none !important;
+        -webkit-overscroll-behavior: none !important;
+        transform: translateZ(0); /* Force hardware acceleration */
+        will-change: transform;
+      }
+      
+      /* Ensure fixed header stays in place */
+      header.fixed {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 50 !important;
+      }
+      
+      /* Creative Homepage Animations */
+      @keyframes gradient-xy {
+        0%, 100% {
+          background-position: 0% 0%;
+        }
+        50% {
+          background-position: 100% 100%;
+        }
+      }
+      
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+      
+      @keyframes float-delayed {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-30px);
+        }
+      }
+      
+      @keyframes float-slow {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+      
+      .animate-gradient-xy {
+        background-size: 200% 200%;
+        animation: gradient-xy 15s ease infinite;
+      }
+      
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      
+      .animate-float-delayed {
+        animation: float-delayed 8s ease-in-out infinite;
+        animation-delay: 2s;
+      }
+      
+      .animate-float-slow {
+        animation: float-slow 10s ease-in-out infinite;
+        animation-delay: 4s;
+      }
+      
+      /* Grid Pattern Background */
+      .bg-grid-pattern {
+        background-image: 
+          linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-grid-pattern {
+          background-image: 
+            linear-gradient(rgba(96, 165, 250, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(96, 165, 250, 0.1) 1px, transparent 1px);
+        }
+      }
+      
+      /* Line Clamp Utility */
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      /* Enhanced Hover Effects */
+      .group:hover .group-hover\\:shadow-blue-500\\/10 {
+        box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04);
+      }
+      
+      /* Backdrop Blur Support */
+      @supports (backdrop-filter: blur(8px)) {
+        .backdrop-blur-sm {
+          backdrop-filter: blur(4px);
+        }
+      }
+      
+      /* Gradient Text Enhancement */
+      .bg-clip-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      /* Smooth Transitions for All Interactive Elements */
+      article, button, a {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      /* Pulse Animation for Live Indicator */
+      @keyframes pulse-soft {
+        0%, 100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(1.05);
+        }
+      }
+      
+      .animate-pulse {
+        animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
       }
       }
       
@@ -281,6 +415,10 @@
       padding: 0;
       z-index: 100;
       font-family: inherit;
+      transform: translateZ(0); /* Force hardware acceleration */
+      will-change: transform; /* Optimize for animations */
+      overscroll-behavior: none; /* Prevent TOC from bouncing */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     }
     
     .toc-header {
@@ -315,6 +453,8 @@
       overflow-y: auto;
       border-left: 1px solid #e5e7eb;
       padding-left: 0 !important;
+      overscroll-behavior: none; /* Prevent list from bouncing */
+      -webkit-overflow-scrolling: touch;
     }
     
     @media (prefers-color-scheme: dark) {
@@ -953,11 +1093,11 @@
   <body class="bg-gray-50 dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100 leading-relaxed transition-colors duration-300">
     <div class="min-h-screen flex flex-col">
       <!-- Header -->
-      <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 relative transition-colors duration-300">
+      <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 relative transition-colors duration-300 fixed top-0 left-0 right-0 z-50 overscroll-behavior-none">
         <!-- Charakteristischer Akzent-Balken -->
-        <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+        <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 overscroll-behavior-none"></div>
         
-        <div class="max-w-6xl mx-auto px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8 overscroll-behavior-none">
           <div class="flex justify-between items-center py-4">
             <h1 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
               <!-- Logo/Icon -->
@@ -981,7 +1121,7 @@
       </header>
 
       <!-- Main Content -->
-      <main class="flex-1 px-6 lg:px-8 py-6">
+      <main class="flex-1 px-6 lg:px-8 py-6" style="margin-top: 65px;">
         <div class="max-w-4xl mx-auto">
           {{ content | safe }}
         </div>
@@ -1302,15 +1442,15 @@
         link.textContent = text;
         link.title = text; // Tooltip for longer titles
         
-        // Smooth scroll behavior without bounce
+        // Smooth scroll behavior - allow natural bounce
         link.addEventListener('click', (e) => {
           e.preventDefault();
           const target = document.getElementById(id);
           if (target) {
             const yOffset = -80; // Offset for fixed header
             const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            const clampedY = Math.max(0, y); // Prevent negative scroll values
-            window.scrollTo({ top: clampedY, behavior: 'smooth' });
+            // Allow natural scrolling without clamping for bounce effect
+            window.scrollTo({ top: y, behavior: 'smooth' });
           }
         });
         
