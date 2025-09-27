@@ -72,6 +72,156 @@
       /* Prevent flash of white content - immediate dark mode styles */
       :root {
         color-scheme: light dark;
+        --header-height: 65px;
+      }
+      
+      /* Prevent bounce scrolling effect */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      /* Prevent specific elements from bouncing */
+      .overscroll-behavior-none,
+      header[class*="fixed"],
+      .toc-nav {
+        overscroll-behavior: none !important;
+        -webkit-overscroll-behavior: none !important;
+        transform: translateZ(0); /* Force hardware acceleration */
+        will-change: transform;
+      }
+      
+      /* Ensure fixed header stays in place */
+      header.fixed {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 50 !important;
+      }
+      
+      /* Creative Homepage Animations */
+      @keyframes gradient-xy {
+        0%, 100% {
+          background-position: 0% 0%;
+        }
+        50% {
+          background-position: 100% 100%;
+        }
+      }
+      
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+      
+      @keyframes float-delayed {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-30px);
+        }
+      }
+      
+      @keyframes float-slow {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+      
+      .animate-gradient-xy {
+        background-size: 200% 200%;
+        animation: gradient-xy 15s ease infinite;
+      }
+      
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      
+      .animate-float-delayed {
+        animation: float-delayed 8s ease-in-out infinite;
+        animation-delay: 2s;
+      }
+      
+      .animate-float-slow {
+        animation: float-slow 10s ease-in-out infinite;
+        animation-delay: 4s;
+      }
+      
+      /* Grid Pattern Background */
+      .bg-grid-pattern {
+        background-image: 
+          linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        .bg-grid-pattern {
+          background-image: 
+            linear-gradient(rgba(96, 165, 250, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(96, 165, 250, 0.1) 1px, transparent 1px);
+        }
+      }
+      
+      /* Line Clamp Utility */
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      /* Enhanced Hover Effects */
+      .group:hover .group-hover\\:shadow-blue-500\\/10 {
+        box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04);
+      }
+      
+      /* Backdrop Blur Support */
+      @supports (backdrop-filter: blur(8px)) {
+        .backdrop-blur-sm {
+          backdrop-filter: blur(4px);
+        }
+      }
+      
+      /* Gradient Text Enhancement */
+      .bg-clip-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      /* Smooth Transitions for All Interactive Elements */
+      article, button, a {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      /* Pulse Animation for Live Indicator */
+      @keyframes pulse-soft {
+        0%, 100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(1.05);
+        }
+      }
+      
+      .animate-pulse {
+        animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      }
+      
+      body {
+        overscroll-behavior-y: none;
       }
       
       @media (prefers-color-scheme: dark) {
@@ -251,6 +401,215 @@
     .dark .copy-button.copied {
       background: rgba(16, 185, 129, 0.9);
       color: white;
+    }
+
+    /* Table of Contents Styles */
+    .toc-nav {
+      position: fixed;
+      top: calc(var(--header-height, 80px) + 20px);
+      right: 30px;
+      width: 200px;
+      max-height: calc(100vh - var(--header-height, 80px) - 60px);
+      background: transparent;
+      border: none;
+      padding: 0;
+      z-index: 100;
+      font-family: inherit;
+      transform: translateZ(0); /* Force hardware acceleration */
+      will-change: transform; /* Optimize for animations */
+      overscroll-behavior: none; /* Prevent TOC from bouncing */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+    
+    .toc-header {
+      margin-bottom: 8px;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+    
+    .toc-header h3 {
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      color: #374151 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      line-height: 1.5 !important;
+      letter-spacing: normal !important;
+      text-transform: none !important;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-header h3 {
+        color: #d1d5db !important;
+      }
+    }
+    
+    .toc-list {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      max-height: calc(100vh - var(--header-height, 80px) - 100px);
+      overflow-y: auto;
+      border-left: 1px solid #e5e7eb;
+      padding-left: 0 !important;
+      overscroll-behavior: none; /* Prevent list from bouncing */
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-list {
+        border-left-color: #374151;
+      }
+    }
+    
+    /* Scrollbar für TOC Liste */
+    .toc-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    .toc-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .toc-list::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.5);
+      border-radius: 2px;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-list::-webkit-scrollbar-thumb {
+        background: rgba(107, 114, 128, 0.5);
+      }
+    }
+    
+    .toc-item {
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none;
+      position: relative;
+    }
+    
+    .toc-item.active::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #3b82f6;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-item.active::before {
+        background: #60a5fa;
+      }
+    }
+    
+    .toc-link {
+      display: block !important;
+      padding: 2px 0 2px 16px !important;
+      color: #6b7280 !important;
+      text-decoration: none !important;
+      font-size: 0.8125rem !important;
+      line-height: 1.5 !important;
+      transition: color 0.15s ease !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      background: none !important;
+      -webkit-background-clip: unset !important;
+      background-clip: unset !important;
+      -webkit-text-fill-color: unset !important;
+      border-radius: 0;
+      font-weight: 400 !important;
+    }
+    
+    .toc-link::after {
+      display: none !important;
+    }
+    
+    .toc-link:hover {
+      color: #374151 !important;
+      background: none !important;
+      -webkit-text-fill-color: unset !important;
+    }
+    
+    .toc-item.active .toc-link {
+      color: #3b82f6 !important;
+      font-weight: 500 !important;
+      background: none !important;
+      -webkit-text-fill-color: unset !important;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .toc-link {
+        color: #9ca3af !important;
+      }
+      
+      .toc-link:hover {
+        color: #d1d5db !important;
+      }
+      
+      .toc-item.active .toc-link {
+        color: #60a5fa !important;
+      }
+    }
+    
+    /* Einrückung für verschiedene Heading-Level */
+    .toc-h1 .toc-link {
+      padding-left: 16px !important;
+      font-weight: 500 !important;
+    }
+    
+    .toc-h2 .toc-link {
+      padding-left: 24px !important;
+    }
+    
+    .toc-h3 .toc-link {
+      padding-left: 32px !important;
+      font-size: 0.75rem !important;
+      opacity: 0.9;
+    }
+    
+    .toc-h4 .toc-link {
+      padding-left: 40px !important;
+      font-size: 0.75rem !important;
+      opacity: 0.8;
+    }
+    
+    /* Responsive Verhalten */
+    @media (max-width: 1200px) {
+      .toc-nav {
+        display: none;
+      }
+    }
+    
+    /* Mobile Toggle für kleinere Bildschirme */
+    @media (max-width: 768px) {
+      .toc-nav {
+        position: fixed;
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        left: 20px;
+        max-width: none;
+        transform: translateY(calc(100% - 60px));
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .toc-nav.expanded {
+        transform: translateY(0);
+        display: block;
+      }
+      
+      .toc-nav:hover {
+        transform: translateY(calc(100% - 60px));
+      }
+      
+      .toc-nav.expanded:hover {
+        transform: translateY(0);
+      }
     }
 
     /* Image zoom functionality */
@@ -516,7 +875,7 @@
         content: '' !important;
         position: absolute !important;
         left: 0 !important;
-        top: 0.5em !important;
+        top: 0.6rem !important;
         width: 8px !important;
         height: 8px !important;
         background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
@@ -541,7 +900,7 @@
         content: counter(list-counter) !important;
         position: absolute !important;
         left: 0 !important;
-        top: 0 !important;
+        top: 0.1rem !important;
         width: 1.5rem !important;
         height: 1.5rem !important;
         background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
@@ -731,29 +1090,29 @@
       }
     </style>
   </head>
-  <body class="bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 leading-relaxed transition-colors duration-300">
+  <body class="bg-gray-50 dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100 leading-relaxed transition-colors duration-300">
     <div class="min-h-screen flex flex-col">
       <!-- Header -->
-      <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 relative transition-colors duration-300">
+      <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 relative transition-colors duration-300 fixed top-0 left-0 right-0 z-50 overscroll-behavior-none">
         <!-- Charakteristischer Akzent-Balken -->
-        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+        <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 overscroll-behavior-none"></div>
         
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center py-6">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8 overscroll-behavior-none">
+          <div class="flex justify-between items-center py-4">
+            <h1 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
               <!-- Logo/Icon -->
-              <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center shadow-sm">
-                <span class="text-white font-bold text-sm">KF</span>
+              <div class="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md mr-3 flex items-center justify-center shadow-sm">
+                <span class="text-white font-bold text-xs">KF</span>
               </div>
               <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
                 SpelkBlog
               </a>
             </h1>
             <nav class="hidden sm:block">
-              <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+              <a href="/" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">
                 Home
               </a>
-              <a href="/about" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+              <a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">
                 About
               </a>
             </nav>
@@ -762,22 +1121,20 @@
       </header>
 
       <!-- Main Content -->
-      <main class="flex-1 px-4 sm:px-6 lg:px-8 py-8">
+      <main class="flex-1 px-6 lg:px-8 py-6" style="margin-top: 65px;">
         <div class="max-w-4xl mx-auto">
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 sm:p-8 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
-            {{ content | safe }}
-          </div>
+          {{ content | safe }}
         </div>
       </main>
 
       <!-- Footer -->
-      <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16 transition-colors duration-300">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div class="flex flex-col sm:flex-row justify-between items-center">
-            <p class="text-gray-600 dark:text-gray-300 text-sm">
+      <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-16 transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8 py-6">
+          <div class="flex flex-col sm:flex-row justify-between items-center text-sm">
+            <p class="text-gray-600 dark:text-gray-400">
               © 2025 — <span class="font-medium">Keanu Fuchs</span>
             </p>
-            <p class="text-gray-500 dark:text-gray-400 text-xs mt-2 sm:mt-0">
+            <p class="text-gray-500 dark:text-gray-500 text-xs mt-2 sm:mt-0">
               Built with ❤️ and Eleventy
             </p>
           </div>
@@ -1014,15 +1371,180 @@
         modal.classList.remove('active');
         document.body.classList.remove('modal-open');
       }
+    }
+    
+    // Table of Contents Functionality
+    function generateTableOfContents() {
+      const toc = document.getElementById('toc');
+      const tocList = document.getElementById('toc-list');
+      const content = document.getElementById('post-content');
+      
+      if (!toc || !tocList || !content) {
+        return; // Not on a post page
+      }
+      
+      const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      
+      if (headings.length === 0) {
+        toc.style.display = 'none';
+        return;
+      }
+      
+      // Clear existing TOC
+      tocList.innerHTML = '';
+      
+      // Add title link at the top
+      const titleElement = document.querySelector('article header h1');
+      if (titleElement) {
+        const titleLi = document.createElement('li');
+        titleLi.className = 'toc-item toc-title-item';
+        
+        const titleLink = document.createElement('a');
+        titleLink.href = '#';
+        titleLink.className = 'toc-link';
+        titleLink.textContent = titleElement.textContent.trim();
+        titleLink.title = 'Zurück zum Anfang';
+        
+        // Scroll to top behavior without bounce
+        titleLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        titleLi.appendChild(titleLink);
+        tocList.appendChild(titleLi);
+      }
+      
+      // Generate TOC items (no title link)
+      const tocItems = [];
+      headings.forEach((heading, index) => {
+        // Create unique ID if not exists
+        if (!heading.id) {
+          const id = heading.textContent
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '');
+          heading.id = id || `heading-${index}`;
+        }
+        
+        const level = parseInt(heading.tagName.charAt(1));
+        const text = heading.textContent.trim();
+        const id = heading.id;
+        
+        const li = document.createElement('li');
+        li.className = `toc-item toc-h${level}`;
+        
+        const link = document.createElement('a');
+        link.href = `#${id}`;
+        link.className = 'toc-link';
+        link.textContent = text;
+        link.title = text; // Tooltip for longer titles
+        
+        // Smooth scroll behavior - allow natural bounce
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById(id);
+          if (target) {
+            const yOffset = -80; // Offset for fixed header
+            const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            // Allow natural scrolling without clamping for bounce effect
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        });
+        
+        li.appendChild(link);
+        tocList.appendChild(li);
+        tocItems.push({ element: li, heading: heading });
+      });
+      
+      // Setup scroll spy
+      setupScrollSpy(tocItems);
+    }
+    
+    function setupScrollSpy(tocItems) {
+      const titleItem = document.querySelector('.toc-title-item');
+      
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -35% 0px',
+        threshold: 0
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const tocItem = tocItems.find(item => item.heading === entry.target);
+          if (tocItem) {
+            if (entry.isIntersecting) {
+              // Remove active from all items including title
+              tocItems.forEach(item => item.element.classList.remove('active'));
+              if (titleItem) titleItem.classList.remove('active');
+              
+              // Add active to current item
+              tocItem.element.classList.add('active');
+              
+              // Scroll TOC to keep active item visible
+              tocItem.element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'nearest'
+              });
+            }
+          }
+        });
+      }, observerOptions);
+      
+      // Additional scroll listener to handle top of page (prevent bounce)
+      let ticking = false;
+      function handleScroll() {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // If we're at the very top (within 100px), activate title
+            if (scrollTop < 100 && titleItem) {
+              // Remove active from all heading items
+              tocItems.forEach(item => item.element.classList.remove('active'));
+              titleItem.classList.add('active');
+            }
+            
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+      
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      
+      // Initial check
+      handleScroll();
+      
+      // Observe all headings
+      tocItems.forEach(item => observer.observe(item.heading));
+    }
+    
+    // Hide TOC on non-post pages
+    function hideTocOnNonPostPages() {
+      const toc = document.getElementById('toc');
+      const content = document.getElementById('post-content');
+      
+      if (toc && !content) {
+        toc.style.display = 'none';
+      }
     }    // Initialize copy buttons when DOM is ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
         addCopyButtons();
         addImageZoom();
+        generateTableOfContents();
+        hideTocOnNonPostPages();
       });
     } else {
       addCopyButtons();
       addImageZoom();
+      generateTableOfContents();
+      hideTocOnNonPostPages();
     }
     
     // Re-initialize copy buttons and image zoom after any dynamic content changes
