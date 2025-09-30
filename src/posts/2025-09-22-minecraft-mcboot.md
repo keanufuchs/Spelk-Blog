@@ -147,21 +147,21 @@ import logging
 from typing import Optional
 
 # --- Configuration ---
-MC_PROXY_HOST   = os.getenv("MC_PROXY_HOST", "192.168.10.10")
+MC_PROXY_HOST   = os.getenv("MC_PROXY_HOST", "add_your_proxy_ip")
 MC_PROXY_PORT   = int(os.getenv("MC_PROXY_PORT", "25565"))
 
-MC_BACKEND_HOST = os.getenv("MC_BACKEND_HOST", "192.168.10.9")
+MC_BACKEND_HOST = os.getenv("MC_BACKEND_HOST", "add_your_backend_ip")
 MC_BACKEND_PORT = int(os.getenv("MC_BACKEND_PORT", "25565"))
 
-BMC_HOST = os.getenv("BMC_HOST", "192.168.10.8")
-BMC_USER = os.getenv("BMC_USER", "ADMIN")
-BMC_PASS = os.getenv("BMC_PASS", "ADMIN")
+BMC_HOST = os.getenv("BMC_HOST", "add_your_bmc_ip")
+BMC_USER = os.getenv("BMC_USER", "add_your_user")
+BMC_PASS = os.getenv("BMC_PASS", "add_your_password")
 
 # RCON for graceful shutdown
 USE_RCON = True
 RCON_HOST = os.getenv("RCON_HOST", MC_BACKEND_HOST)
 RCON_PORT = int(os.getenv("RCON_PORT", "25575"))
-RCON_PASS = os.getenv("RCON_PASS", "Magenta!123")
+RCON_PASS = os.getenv("RCON_PASS", "add_your_password")
 
 # Timings
 CHECK_INTERVAL = int(os.getenv("CHECK_INTERVAL", "3"))    # seconds between checks
