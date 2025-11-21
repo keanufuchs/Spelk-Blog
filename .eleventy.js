@@ -46,6 +46,21 @@ module.exports = function(eleventyConfig) {
     
     return text;
   });
+
+  // Date filter for Nunjucks templates
+  // Support commonly used formats from Liquid: '%Y-%m-%d' and '%B %d, %Y'
+  eleventyConfig.addFilter("date", function(dateObj, format) {
+    if (!dateObj) return '';
+    const d = new Date(dateObj);
+    if (format === '%Y-%m-%d') {
+      return d.toISOString().split('T')[0];
+    }
+    if (format === '%B %d, %Y') {
+      return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+    // Fallback: return ISO string
+    return d.toISOString();
+  });
   
   return {
     dir: {

@@ -17,8 +17,8 @@ layout: layout.njk
     <header class="mb-8 pb-6 border-b border-gray-200 dark:border-gray-800">
       <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight !mt-0">{{ title }}</h1>
       <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
-        <time class="font-medium">
-          September 21, 2025
+        <time class="font-medium" datetime="{{ page.date | date('%Y-%m-%d') }}">
+          {{ page.date | date('%B %d, %Y') }}
         </time>
         <span class="mx-2">•</span>
         <span>Tech Post</span>
