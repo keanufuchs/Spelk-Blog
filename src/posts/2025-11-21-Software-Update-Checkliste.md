@@ -116,7 +116,27 @@ boot system flash:<image>.bin
 
 ---
 
-## **7. Stack Auto-Upgrade / Image-Verteilung (optional)**
+## **7. Startup Config prüfen**
+
+Zur Überprüfung, ob die Startup-Konfiguration ignoriert wird, dient folgender Befehl:
+
+```bash
+show romvar
+```
+
+Es sollte geprüft werden, dass `SWITCH_IGNORE_STARTUP_CFG=0` ist.
+
+Zusätzlich wird der Configuration Register überprüft:
+
+```bash
+show version
+```
+
+Der Configuration Register sollte `0x102` sein. Falls er abweicht (z.B. `0x2142` würde die Startup-Config ignorieren), muss dies korrigiert werden.
+
+---
+
+## **8. Stack Auto-Upgrade / Image-Verteilung (optional)**
 
 Der Status der automatischen Image-Verteilung wird kontrolliert mit:
 
@@ -132,7 +152,7 @@ software auto-upgrade enable
 
 ---
 
-## **8. Install-Mode Konsistenz prüfen**
+## **9. Install-Mode Konsistenz prüfen**
 
 Damit alle Pakete korrekt installiert sind und Rollback-Punkte existieren, dient folgender Befehl:
 
@@ -142,7 +162,7 @@ show install summary
 
 ---
 
-## **9. Optional: USB & Spare-Member prüfen**
+## **10. Optional: USB & Spare-Member prüfen**
 
 Zum Prüfen eines angeschlossenen USB-Mediums:
 
