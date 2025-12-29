@@ -56,7 +56,7 @@ title: "About - Keanu Fuchs | SpelkBlog"
         </div>
         <div class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 dark:border-gray-700/50">
           <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">⚙️</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Sys Engineer</div>
+          <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">System Engineer</div>
         </div>
         <div class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 dark:border-gray-700/50">
           <div class="text-2xl font-bold text-green-600 dark:text-green-400">🌍</div>
