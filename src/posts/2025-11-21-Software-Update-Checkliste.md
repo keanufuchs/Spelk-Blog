@@ -1,80 +1,79 @@
 ---
-
-title: "Cisco Catalyst Software Update Checkliste"
+title: "Cisco Catalyst Software Update Checklist"
 date: 2025-11-21
 layout: post.njk
 
 ---
 
-Bevor ein Software-Update auf Netzwerkgeräten durchgeführt wird, lohnt sich eine saubere und strukturierte Vorbereitung. Diese Checkliste führt dich durch alle relevanten Prüfungen – von der Kontrolle des Betriebsmodus über die Stack-Integrität bis hin zur Image-Validierung. Ziel ist, Risiken zu minimieren und ein Update so planbar und störungsfrei wie möglich zu machen.
+Before performing a software update on network devices, thorough and structured preparation is worthwhile. This checklist guides you through all relevant checks – from verifying the operating mode to stack integrity and image validation. The goal is to minimize risks and make an update as predictable and trouble-free as possible.
 
 ---
 
-## **1. Betriebsmodus & Version prüfen (Install/Bund­le + Neustart-Historie)**
+## **1. Check Operating Mode & Version (Install/Bundle + Reboot History)**
 
-Zur Kontrolle der aktuell laufenden Version, des Boot-Verhaltens und der Uptime werden folgende Befehle ausgeführt:
+To check the currently running version, boot behavior, and uptime, execute the following commands:
 
 ```bash
 show version
 show boot
 ```
 
-Über die Ausgabe erkennst du, ob das System im **Install Mode (packages.conf)** oder im **Bundle Mode (.bin-File)** läuft. Zusätzlich sollten Crash-Informationen, Reload-Reason und die Neustarthistorie geprüft werden.
+From the output, you can determine whether the system is running in **Install Mode (packages.conf)** or **Bundle Mode (.bin file)**. Additionally, crash information, reload reason, and reboot history should be reviewed.
 
 ---
 
-## **2. Konfiguration sichern**
+## **2. Backup Configuration**
 
-Zunächst wird die laufende Konfiguration gespeichert und mit der Startkonfiguration abgeglichen:
+First, save the running configuration and compare it with the startup configuration:
 
 ```bash
 write
 show startup-config
 ```
 
-Optional empfiehlt sich ein externes Backup per TFTP, FTP oder SCP.
+Optionally, an external backup via TFTP, FTP, or SCP is recommended.
 
 ---
 
-## **3. Stack-Status & Reihenfolge prüfen (inkl. Verkabelung)**
+## **3. Check Stack Status & Order (including Cabling)**
 
-Zur Überprüfung der Stack-Mitglieder, deren Rollen und der logischen Reihenfolge dient:
+To verify stack members, their roles, and logical order, use:
 
 ```bash
 show switch
 ```
 
-Die logische Verbindung der Stack-Ports wird kontrolliert über:
+The logical connection of stack ports is checked via:
 
 ```bash
 show switch stack-ports
 ```
 
-Falls notwendig, kann die Priorität eines Members neu gesetzt werden:
+If necessary, a member's priority can be reset:
 
 ```bash
 switch <member> priority <value>
 ```
 
-Abschließend sollte die physische Verkabelung manuell geprüft werden.
+Finally, the physical cabling should be manually verified.
 
 ---
 
-## **4. Systemgesundheit prüfen**
+## **4. Check System Health**
 
-Ein Blick in die Logs zeigt potenzielle Warnungen oder Fehler:
+A look at the logs reveals potential warnings or errors:
 
 ```bash
 show logging
 ```
 
-Temperaturwerte, Lüfter und Netzteile werden geprüft mit:
+Temperature values, fans, and power supplies are checked with:
 
 ```bash
 show environment all
 ```
 
-Zur Kontrolle der Flash-Konsistenz empfiehlt sich:
+To verify flash consistency, use:
 
 ```bash
 verify filesystem flash:
@@ -82,15 +81,15 @@ verify filesystem flash:
 
 ---
 
-## **5. Speicherplatz & Image-Integrität (Hash) prüfen**
+## **5. Check Storage Space & Image Integrity (Hash)**
 
-Der verfügbare Speicherplatz wird angezeigt durch:
+Available storage space is displayed by:
 
 ```bash
 dir flash:
 ```
 
-Zur Validierung der Image-Dateien sollten Hashwerte überprüft werden:
+To validate image files, hash values should be verified:
 
 ```bash
 verify /md5 flash:<filename>.bin
@@ -99,15 +98,15 @@ verify /sha512 flash:<filename>.bin
 
 ---
 
-## **6. Boot-Variable prüfen**
+## **6. Check Boot Variables**
 
-Die aktuellen Boot-Einträge werden angezeigt über:
+Current boot entries are displayed via:
 
 ```bash
 show boot
 ```
 
-Falls erforderlich, können sie bereinigt und neu gesetzt werden:
+If necessary, they can be cleared and reset:
 
 ```bash
 no boot system
@@ -116,35 +115,35 @@ boot system flash:<image>.bin
 
 ---
 
-## **7. Startup Config prüfen**
+## **7. Check Startup Config**
 
-Zur Überprüfung, ob die Startup-Konfiguration ignoriert wird, dient folgender Befehl:
+To verify whether the startup configuration is being ignored, use the following command:
 
 ```bash
 show romvar
 ```
 
-Es sollte geprüft werden, dass `SWITCH_IGNORE_STARTUP_CFG=0` ist.
+It should be verified that `SWITCH_IGNORE_STARTUP_CFG=0`.
 
-Zusätzlich wird der Configuration Register überprüft:
+Additionally, the configuration register is checked:
 
 ```bash
 show version
 ```
 
-Der Configuration Register sollte `0x102` sein. Falls er abweicht (z.B. `0x2142` würde die Startup-Config ignorieren), muss dies korrigiert werden.
+The configuration register should be `0x102`. If it differs (e.g., `0x2142` would ignore the startup config), this must be corrected.
 
 ---
 
-## **8. Stack Auto-Upgrade / Image-Verteilung (optional)**
+## **8. Stack Auto-Upgrade / Image Distribution (optional)**
 
-Der Status der automatischen Image-Verteilung wird kontrolliert mit:
+The status of automatic image distribution is checked with:
 
 ```bash
 show auto-upgrade
 ```
 
-Wenn ein Stack-Member ein abweichendes Image nutzt, kann Auto-Upgrade aktiviert werden:
+If a stack member uses a different image, auto-upgrade can be enabled:
 
 ```bash
 software auto-upgrade enable
@@ -152,9 +151,9 @@ software auto-upgrade enable
 
 ---
 
-## **9. Install-Mode Konsistenz prüfen**
+## **9. Check Install-Mode Consistency**
 
-Damit alle Pakete korrekt installiert sind und Rollback-Punkte existieren, dient folgender Befehl:
+To ensure all packages are correctly installed and rollback points exist, use the following command:
 
 ```bash
 show install summary
@@ -162,15 +161,15 @@ show install summary
 
 ---
 
-## **10. Optional: USB & Spare-Member prüfen**
+## **10. Optional: Check USB & Spare Members**
 
-Zum Prüfen eines angeschlossenen USB-Mediums:
+To check a connected USB medium:
 
 ```bash
 dir usbflash0:
 ```
 
-Für Reserve- oder inaktive Stack-Mitglieder, etwa bei Versionskonflikten:
+For reserve or inactive stack members, for example in case of version conflicts:
 
 ```bash
 show switch
