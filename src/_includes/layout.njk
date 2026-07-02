@@ -2,46 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=0.8,maximum-scale=5.0,user-scalable=yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ title or "SpelkBlog" }}</title>
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 
-    <!-- Prevent flash of white content in dark mode -->
-    <script>
-      (function() {
-        // Check if dark mode is preferred before any rendering
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.classList.add('dark');
-          document.documentElement.style.colorScheme = 'dark';
-        } else {
-          document.documentElement.style.colorScheme = 'light';
-        }
-      })();
-    </script>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'media', // Verwendet Systemeinstellungen
-        theme: {
-          extend: {
-            fontFamily: {
-              'sans': ['Inter', 'system-ui', 'sans-serif'],
-            }
-          }
-        }
-      }
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/swiss-letterpress.css">
 
     <script type="module">
-      // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
       import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
 
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
       const firebaseConfig = {
         apiKey: "AIzaSyBVS_2IzkXRRY43lSNWLln3zQ2ggC6keFc",
         authDomain: "spelk-blog.firebaseapp.com",
@@ -52,1165 +25,81 @@
         measurementId: "G-SN5LRG701M"
       };
 
-      // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Prism.js for Syntax Highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
-    
-    <style>
-      /* Prevent flash of white content - immediate dark mode styles */
-      :root {
-        color-scheme: light dark;
-        --header-height: 65px;
-      }
-      
-      /* Prevent bounce scrolling effect */
-      html {
-        scroll-behavior: smooth;
-      }
-      
-      /* Prevent specific elements from bouncing */
-      .overscroll-behavior-none,
-      header[class*="fixed"],
-      .toc-nav {
-        overscroll-behavior: none !important;
-        -webkit-overscroll-behavior: none !important;
-        transform: translateZ(0); /* Force hardware acceleration */
-        will-change: transform;
-      }
-      
-      /* Ensure fixed header stays in place */
-      header.fixed {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        z-index: 50 !important;
-      }
-      
-      /* Creative Homepage Animations */
-      @keyframes gradient-xy {
-        0%, 100% {
-          background-position: 0% 0%;
-        }
-        50% {
-          background-position: 100% 100%;
-        }
-      }
-      
-      @keyframes float {
-        0%, 100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-      
-      @keyframes float-delayed {
-        0%, 100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-30px);
-        }
-      }
-      
-      @keyframes float-slow {
-        0%, 100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-15px);
-        }
-      }
-      
-      .animate-gradient-xy {
-        background-size: 200% 200%;
-        animation: gradient-xy 15s ease infinite;
-      }
-      
-      .animate-float {
-        animation: float 6s ease-in-out infinite;
-      }
-      
-      .animate-float-delayed {
-        animation: float-delayed 8s ease-in-out infinite;
-        animation-delay: 2s;
-      }
-      
-      .animate-float-slow {
-        animation: float-slow 10s ease-in-out infinite;
-        animation-delay: 4s;
-      }
-      
-      /* Grid Pattern Background */
-      .bg-grid-pattern {
-        background-image: 
-          linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
-        background-size: 20px 20px;
-      }
-      
-      @media (prefers-color-scheme: dark) {
-        .bg-grid-pattern {
-          background-image: 
-            linear-gradient(rgba(96, 165, 250, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(96, 165, 250, 0.1) 1px, transparent 1px);
-        }
-      }
-      
-      /* Line Clamp Utility */
-      .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      
-      /* Enhanced Hover Effects */
-      .group:hover .group-hover\\:shadow-blue-500\\/10 {
-        box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04);
-      }
-      
-      /* Backdrop Blur Support */
-      @supports (backdrop-filter: blur(8px)) {
-        .backdrop-blur-sm {
-          backdrop-filter: blur(4px);
-        }
-      }
-      
-      /* Gradient Text Enhancement */
-      .bg-clip-text {
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      
-      /* Smooth Transitions for All Interactive Elements */
-      article, button, a {
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
-      /* Pulse Animation for Live Indicator */
-      @keyframes pulse-soft {
-        0%, 100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 0.7;
-          transform: scale(1.05);
-        }
-      }
-      
-      .animate-pulse {
-        animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      }
-      }
-      
-      body {
-        overscroll-behavior-y: none;
-      }
-      
-      @media (prefers-color-scheme: dark) {
-        html {
-          background-color: #111827 !important;
-          color: #f9fafb !important;
-        }
-        body {
-          background-color: #111827 !important;
-          color: #f9fafb !important;
-        }
-      }
-      
-      /* Custom styles für Bilder */
-      .prose img {
-        border-radius: 0.75rem !important;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
-        transition: none !important;
-      }
-      
-      /* Dark Mode Schatten für Bilder */
-      @media (prefers-color-scheme: dark) {
-        .prose img {
-          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
-        }
-      }
-      
-      /* Custom styles für Codeblöcke mit Prism.js Integration */
-      .prose pre[class*="language-"] {
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
-        border: 1px solid #475569 !important;
-        border-radius: 0.75rem !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-        padding: 1.5rem !important;
-        margin: 1.5rem 0 !important;
-        overflow-x: auto !important;
-        position: relative !important;
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Fira Code', monospace !important;
-        font-size: 0.875rem !important;
-        line-height: 1.5 !important;
-      }
-      
-      /* Dark Mode Codeblöcke */
-      @media (prefers-color-scheme: dark) {
-        .prose pre[class*="language-"] {
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
-          border: 1px solid #334155 !important;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
-        }
-      }
-      
-      .prose code[class*="language-"] {
-        color: #e2e8f0 !important;
-        background: transparent !important;
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Fira Code', monospace !important;
-        font-size: 0.875rem !important;
-        line-height: 1.5 !important;
-      }
-      
-      /* Fallback für Codeblöcke ohne Sprach-Klasse */
-      .prose pre:not([class*="language-"]) {
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
-        border: 1px solid #475569 !important;
-        border-radius: 0.75rem !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-        padding: 1.5rem !important;
-        margin: 1.5rem 0 !important;
-        overflow-x: auto !important;
-        position: relative !important;
-      }
-      
-      @media (prefers-color-scheme: dark) {
-        .prose pre:not([class*="language-"]) {
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
-          border: 1px solid #334155 !important;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
-        }
-      }
-      
-      .prose pre:not([class*="language-"]) code {
-        background: transparent !important;
-        color: #e2e8f0 !important;
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Fira Code', monospace !important;
-        font-size: 0.875rem !important;
-        line-height: 1.5 !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-      }
-      
-      /* Inline Code - Light Mode */
-      .prose code:not(pre code):not([class*="language-"]) {
-        background: #f1f5f9 !important;
-        color: #1e293b !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 0.375rem !important;
-        padding: 0.25rem 0.375rem !important;
-        font-size: 0.875rem !important;
-        font-weight: 500 !important;
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Fira Code', monospace !important;
-      }
-      
-      /* Inline Code - Dark Mode */
-      @media (prefers-color-scheme: dark) {
-        .prose code:not(pre code):not([class*="language-"]) {
-          background: #374151 !important;
-          color: #e5e7eb !important;
-          border: 1px solid #4b5563 !important;
-        }
-      }
-      
-      /* Code Block Header Effect */
-      .prose pre[class*="language-"]::before,
-      .prose pre:not([class*="language-"])::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
-        border-radius: 0.75rem 0.75rem 0 0;
-      }
-      
-    /* Copy button styling */
-    .code-block-wrapper {
-      position: relative;
-    }
-    
-    .copy-button {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(75, 85, 99, 0.9);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 8px;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      opacity: 0;
-      transition: all 0.2s ease;
-      backdrop-filter: blur(4px);
-      z-index: 10;
-    }
-    
-    .code-block-wrapper:hover .copy-button {
-      opacity: 1;
-    }
-    
-    .copy-button:hover {
-      background: rgba(55, 65, 81, 0.95);
-      transform: translateY(-1px);
-    }
-    
-    .copy-button.copied {
-      background: rgba(16, 185, 129, 0.9);
-    }
-    
-    .copy-button svg {
-      flex-shrink: 0;
-    }
-    
-    /* Dark mode copy button adjustments */
-    .dark .copy-button {
-      background: rgba(31, 41, 55, 0.9);
-      color: #e5e7eb;
-    }
-    
-    .dark .copy-button:hover {
-      background: rgba(17, 24, 39, 0.95);
-    }
-    
-    .dark .copy-button.copied {
-      background: rgba(16, 185, 129, 0.9);
-      color: white;
-    }
-
-    /* Table of Contents Styles */
-    .toc-nav {
-      position: fixed;
-      top: calc(var(--header-height, 80px) + 20px);
-      right: 30px;
-      width: 200px;
-      max-height: calc(100vh - var(--header-height, 80px) - 60px);
-      background: transparent;
-      border: none;
-      padding: 0;
-      z-index: 100;
-      font-family: inherit;
-      transform: translateZ(0); /* Force hardware acceleration */
-      will-change: transform; /* Optimize for animations */
-      overscroll-behavior: none; /* Prevent TOC from bouncing */
-      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    }
-    
-    .toc-header {
-      margin-bottom: 8px;
-      padding: 0;
-      border: none;
-      background: none;
-    }
-    
-    .toc-header h3 {
-      font-size: 0.875rem !important;
-      font-weight: 600 !important;
-      color: #374151 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      line-height: 1.5 !important;
-      letter-spacing: normal !important;
-      text-transform: none !important;
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      .toc-header h3 {
-        color: #d1d5db !important;
-      }
-    }
-    
-    .toc-list {
-      list-style: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      max-height: calc(100vh - var(--header-height, 80px) - 100px);
-      overflow-y: auto;
-      border-left: 1px solid #e5e7eb;
-      padding-left: 0 !important;
-      overscroll-behavior: none; /* Prevent list from bouncing */
-      -webkit-overflow-scrolling: touch;
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      .toc-list {
-        border-left-color: #374151;
-      }
-    }
-    
-    /* Scrollbar für TOC Liste */
-    .toc-list::-webkit-scrollbar {
-      width: 4px;
-    }
-    
-    .toc-list::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    
-    .toc-list::-webkit-scrollbar-thumb {
-      background: rgba(156, 163, 175, 0.5);
-      border-radius: 2px;
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      .toc-list::-webkit-scrollbar-thumb {
-        background: rgba(107, 114, 128, 0.5);
-      }
-    }
-    
-    .toc-item {
-      margin: 0 !important;
-      padding: 0 !important;
-      border: none;
-      position: relative;
-    }
-    
-    .toc-item.active::before {
-      content: '';
-      position: absolute;
-      left: -1px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: #3b82f6;
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      .toc-item.active::before {
-        background: #60a5fa;
-      }
-    }
-    
-    .toc-link {
-      display: block !important;
-      padding: 2px 0 2px 16px !important;
-      color: #6b7280 !important;
-      text-decoration: none !important;
-      font-size: 0.8125rem !important;
-      line-height: 1.5 !important;
-      transition: color 0.15s ease !important;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      background: none !important;
-      -webkit-background-clip: unset !important;
-      background-clip: unset !important;
-      -webkit-text-fill-color: unset !important;
-      border-radius: 0;
-      font-weight: 400 !important;
-    }
-    
-    .toc-link::after {
-      display: none !important;
-    }
-    
-    .toc-link:hover {
-      color: #374151 !important;
-      background: none !important;
-      -webkit-text-fill-color: unset !important;
-    }
-    
-    .toc-item.active .toc-link {
-      color: #3b82f6 !important;
-      font-weight: 500 !important;
-      background: none !important;
-      -webkit-text-fill-color: unset !important;
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      .toc-link {
-        color: #9ca3af !important;
-      }
-      
-      .toc-link:hover {
-        color: #d1d5db !important;
-      }
-      
-      .toc-item.active .toc-link {
-        color: #60a5fa !important;
-      }
-    }
-    
-    /* Einrückung für verschiedene Heading-Level */
-    .toc-h1 .toc-link {
-      padding-left: 16px !important;
-      font-weight: 500 !important;
-    }
-    
-    .toc-h2 .toc-link {
-      padding-left: 24px !important;
-    }
-    
-    .toc-h3 .toc-link {
-      padding-left: 32px !important;
-      font-size: 0.75rem !important;
-      opacity: 0.9;
-    }
-    
-    .toc-h4 .toc-link {
-      padding-left: 40px !important;
-      font-size: 0.75rem !important;
-      opacity: 0.8;
-    }
-    
-    /* Responsive Verhalten */
-    @media (max-width: 1400px) {
-      .toc-nav {
-        display: none;
-      }
-    }
-    
-    /* Mobile Toggle für kleinere Bildschirme */
-    @media (max-width: 768px) {
-      .toc-nav {
-        position: fixed;
-        top: auto;
-        bottom: 20px;
-        right: 20px;
-        left: 20px;
-        max-width: none;
-        transform: translateY(calc(100% - 60px));
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
-      .toc-nav.expanded {
-        transform: translateY(0);
-        display: block;
-      }
-      
-      .toc-nav:hover {
-        transform: translateY(calc(100% - 60px));
-      }
-      
-      .toc-nav.expanded:hover {
-        transform: translateY(0);
-      }
-    }
-
-    /* Image zoom functionality */
-    .zoomable-image {
-      cursor: zoom-in;
-      border-radius: 8px;
-    }
-    
-    /* Image modal/overlay */
-    .image-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    
-    .image-modal.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .image-modal-content {
-      position: relative;
-      max-width: 95vw;
-      max-height: 95vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .image-modal img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-      cursor: zoom-out;
-      transition: transform 0.3s ease;
-    }
-    
-    .image-modal-close {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      background: rgba(255, 255, 255, 0.9);
-      color: #374151;
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      font-weight: bold;
-      z-index: 10001;
-      transition: all 0.2s ease;
-      backdrop-filter: blur(4px);
-    }
-    
-    .image-modal-close:hover {
-      background: rgba(255, 255, 255, 1);
-      transform: scale(1.1);
-    }
-    
-    .dark .image-modal-close {
-      background: rgba(31, 41, 55, 0.9);
-      color: #e5e7eb;
-    }
-    
-    .dark .image-modal-close:hover {
-      background: rgba(31, 41, 55, 1);
-    }
-    
-    /* Loading spinner for images */
-    .image-loading {
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top-color: #ffffff;
-      animation: spin 1s ease-in-out infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    /* Prevent body scroll when modal is open */
-    body.modal-open {
-      overflow: hidden;
-    }      /* Prose Text Farben für Dark Mode */
-      @media (prefers-color-scheme: dark) {
-        .prose {
-          color: #e5e7eb !important;
-        }
-        .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-          color: #f9fafb !important;
-        }
-        .prose p {
-          color: #d1d5db !important;
-        }
-        .prose blockquote {
-          background: rgba(59, 130, 246, 0.1) !important;
-          border-left-color: #3b82f6 !important;
-          color: #d1d5db !important;
-        }
-        .prose a {
-          color: #60a5fa !important;
-        }
-        .prose a:hover {
-          color: #93c5fd !important;
-        }
-        .prose strong {
-          color: #f3f4f6 !important;
-        }
-        .prose ul > li::marker,
-        .prose ol > li::marker {
-          color: #9ca3af !important;
-        }
-      }
-      
-      /* Enhanced Markdown Styling */
-      
-      /* Headings */
-      .prose h1 {
-        font-size: 2.25rem !important;
-        font-weight: 800 !important;
-        margin: 0 0 1.5rem 0 !important;
-        line-height: 1.2 !important;
-        border-bottom: 3px solid #3b82f6 !important;
-        padding-bottom: 0.75rem !important;
-      }
-      
-      .prose h2 {
-        font-size: 1.875rem !important;
-        font-weight: 700 !important;
-        margin: 2.5rem 0 1rem 0 !important;
-        line-height: 1.3 !important;
-        position: relative !important;
-      }
-      
-      .prose h2::before {
-        content: '' !important;
-        position: absolute !important;
-        left: -1rem !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        width: 4px !important;
-        height: 1.5rem !important;
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
-        border-radius: 2px !important;
-      }
-      
-      .prose h3 {
-        font-size: 1.5rem !important;
-        font-weight: 600 !important;
-        margin: 2rem 0 0.75rem 0 !important;
-        color: #1f2937 !important;
-      }
-      
-      @media (prefers-color-scheme: dark) {
-        .prose h1 {
-          border-bottom-color: #60a5fa !important;
-        }
-        .prose h3 {
-          color: #e5e7eb !important;
-        }
-      }
-      
-      /* Tables */
-      .prose table {
-        width: 100% !important;
-        border-collapse: separate !important;
-        border-spacing: 0 !important;
-        margin: 2rem 0 !important;
-        border-radius: 0.75rem !important;
-        overflow: hidden !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-        border: 1px solid #e5e7eb !important;
-      }
-      
-      .prose table thead {
-        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
-      }
-      
-      .prose table th {
-        padding: 1rem !important;
-        text-align: left !important;
-        font-weight: 600 !important;
-        font-size: 0.875rem !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.05em !important;
-        color: #374151 !important;
-        border-bottom: 2px solid #e5e7eb !important;
-      }
-      
-      .prose table td {
-        padding: 1rem !important;
-        border-bottom: 1px solid #f3f4f6 !important;
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
-        font-size: 0.875rem !important;
-      }
-      
-      .prose table tr:hover {
-        background-color: #f9fafb !important;
-      }
-      
-      .prose table tr:last-child td {
-        border-bottom: none !important;
-      }
-      
-      /* Dark Mode Tables */
-      @media (prefers-color-scheme: dark) {
-        .prose table {
-          border-color: #374151 !important;
-          background: #1f2937 !important;
-        }
-        .prose table thead {
-          background: linear-gradient(135deg, #374151 0%, #4b5563 100%) !important;
-        }
-        .prose table th {
-          color: #e5e7eb !important;
-          border-bottom-color: #4b5563 !important;
-        }
-        .prose table td {
-          border-bottom-color: #374151 !important;
-          color: #d1d5db !important;
-        }
-        .prose table tr:hover {
-          background-color: #374151 !important;
-        }
-      }
-      
-      /* Lists Enhanced */
-      .prose ul, .prose ol {
-        margin: 2rem 0 !important;
-        padding-left: 0 !important;
-        list-style: none !important;
-      }
-      
-      .prose ul li {
-        margin: 0.75rem 0 !important;
-        position: relative !important;
-        padding-left: 2rem !important;
-        line-height: 1.6 !important;
-      }
-      
-      .prose ul li::before {
-        content: '' !important;
-        position: absolute !important;
-        left: 0 !important;
-        top: 0.6rem !important;
-        width: 8px !important;
-        height: 8px !important;
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
-        border-radius: 50% !important;
-        transform: translateY(-50%) !important;
-        box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3) !important;
-      }
-      
-      .prose ol li {
-        margin: 0.75rem 0 !important;
-        position: relative !important;
-        padding-left: 2.5rem !important;
-        line-height: 1.6 !important;
-        counter-increment: list-counter !important;
-      }
-      
-      .prose ol {
-        counter-reset: list-counter !important;
-      }
-      
-      .prose ol li::before {
-        content: counter(list-counter) !important;
-        position: absolute !important;
-        left: 0 !important;
-        top: 0.1rem !important;
-        width: 1.5rem !important;
-        height: 1.5rem !important;
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
-        color: white !important;
-        border-radius: 50% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-size: 0.75rem !important;
-        font-weight: 600 !important;
-        box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3) !important;
-      }
-      
-      /* Nested Lists */
-      .prose ul ul li::before {
-        background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
-        width: 6px !important;
-        height: 6px !important;
-      }
-      
-      .prose ul ul ul li::before {
-        background: linear-gradient(135deg, #ec4899, #f59e0b) !important;
-        width: 4px !important;
-        height: 4px !important;
-      }
-      
-      /* Dark Mode Lists */
-      @media (prefers-color-scheme: dark) {
-        .prose ul li::before,
-        .prose ol li::before {
-          box-shadow: 0 2px 4px rgba(59, 130, 246, 0.5) !important;
-        }
-      }
-      
-      /* Blockquotes Enhanced */
-      .prose blockquote {
-        margin: 2rem 0 !important;
-        padding: 1.5rem !important;
-        border-left: 4px solid #3b82f6 !important;
-        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
-        border-radius: 0 0.75rem 0.75rem 0 !important;
-        font-style: italic !important;
-        position: relative !important;
-        color: #374151 !important;
-      }
-      
-      .prose blockquote::before {
-        content: '"' !important;
-        font-size: 4rem !important;
-        color: #3b82f6 !important;
-        position: absolute !important;
-        top: -0.5rem !important;
-        left: 1rem !important;
-        line-height: 1 !important;
-        opacity: 0.3 !important;
-      }
-      
-      .prose blockquote p {
-        margin: 0 !important;
-        position: relative !important;
-        z-index: 1 !important;
-        color: inherit !important;
-      }
-      
-      /* Dark Mode Blockquotes */
-      @media (prefers-color-scheme: dark) {
-        .prose blockquote {
-          background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
-          border-left-color: #60a5fa !important;
-          color: #e5e7eb !important;
-        }
-        .prose blockquote::before {
-          color: #60a5fa !important;
-        }
-        .prose blockquote p {
-          color: #e5e7eb !important;
-        }
-      }
-      
-      /* Horizontal Rules */
-      .prose hr {
-        margin: 3rem 0 !important;
-        border: none !important;
-        height: 3px !important;
-        background: linear-gradient(90deg, transparent, #3b82f6, transparent) !important;
-        border-radius: 1.5px !important;
-      }
-      
-      /* Paragraphs */
-      .prose p {
-        margin: 1.25rem 0 !important;
-        line-height: 1.75 !important;
-        font-size: 1rem !important;
-      }
-      
-      /* Links Enhanced */
-      .prose a {
-        text-decoration: none !important;
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
-        background-clip: text !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        font-weight: 500 !important;
-        position: relative !important;
-      }
-      
-      .prose a::after {
-        content: '' !important;
-        position: absolute !important;
-        bottom: -2px !important;
-        left: 0 !important;
-        width: 0 !important;
-        height: 2px !important;
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6) !important;
-        transition: width 0.3s ease !important;
-      }
-      
-      .prose a:hover::after {
-        width: 100% !important;
-      }
-      
-      @media (prefers-color-scheme: dark) {
-        .prose a {
-          background: linear-gradient(135deg, #60a5fa, #a78bfa) !important;
-          background-clip: text !important;
-          -webkit-background-clip: text !important;
-        }
-        .prose a::after {
-          background: linear-gradient(90deg, #60a5fa, #a78bfa) !important;
-        }
-      }
-      
-      /* Prism.js Syntax Highlighting bleibt unverändert */
-      .token.comment,
-      .token.prolog,
-      .token.doctype,
-      .token.cdata {
-        color: #64748b !important;
-      }
-      
-      .token.punctuation {
-        color: #94a3b8 !important;
-      }
-      
-      .token.property,
-      .token.tag,
-      .token.boolean,
-      .token.number,
-      .token.constant,
-      .token.symbol,
-      .token.deleted {
-        color: #f87171 !important;
-      }
-      
-      .token.selector,
-      .token.attr-name,
-      .token.string,
-      .token.char,
-      .token.builtin,
-      .token.inserted {
-        color: #34d399 !important;
-      }
-      
-      .token.operator,
-      .token.entity,
-      .token.url,
-      .language-css .token.string,
-      .style .token.string {
-        color: #60a5fa !important;
-      }
-      
-      .token.atrule,
-      .token.attr-value,
-      .token.keyword {
-        color: #a78bfa !important;
-      }
-      
-      .token.function,
-      .token.class-name {
-        color: #fbbf24 !important;
-      }
-      
-      .token.regex,
-      .token.important,
-      .token.variable {
-        color: #fb7185 !important;
-      }
-    </style>
   </head>
-  <body class="bg-gray-50 dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100 leading-relaxed transition-colors duration-300">
-    <div class="min-h-screen flex flex-col">
-      <!-- Header -->
-      <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 relative transition-colors duration-300 fixed top-0 left-0 right-0 z-50 overscroll-behavior-none">
-        <!-- Charakteristischer Akzent-Balken -->
-        <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 overscroll-behavior-none"></div>
-        
-        <div class="max-w-6xl mx-auto px-6 lg:px-8 overscroll-behavior-none">
-          <div class="flex justify-between items-center py-4">
-            <h1 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
-              <!-- Logo/Icon -->
-              <div class="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md mr-3 flex items-center justify-center shadow-sm">
-                <span class="text-white font-bold text-xs">KF</span>
-              </div>
-              <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
-                SpelkBlog
-              </a>
-            </h1>
-            <nav class="hidden sm:block">
-              <a href="/" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">
-                Home
-              </a>
-              <a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-200">
-                About
-              </a>
-            </nav>
-          </div>
+  <body>
+    <div class="grid-bg"></div>
+
+    <div class="page">
+      <header class="site-header">
+        <div>
+          <p class="logo-mark">Keanu Fuchs · Field Notes</p>
+          <h1 class="site-title"><a href="/">Spelk<span>Blog</span></a></h1>
         </div>
+        <nav class="site-nav" aria-label="Main">
+          <a href="/"{% if page.url == "/" %} class="active"{% endif %}>Home</a>
+          <a href="/about/"{% if page.url == "/about/" %} class="active"{% endif %}>About</a>
+        </nav>
       </header>
 
-      <!-- Main Content -->
-      <main class="flex-1 px-6 lg:px-8 py-6" style="margin-top: 65px;">
-        <div class="max-w-4xl mx-auto">
-          {{ content | safe }}
-        </div>
+      <div class="double-rule"></div>
+
+      <main>
+        {{ content | safe }}
       </main>
 
-      <!-- Footer -->
-      <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-16 transition-colors duration-300">
-        <div class="max-w-6xl mx-auto px-6 lg:px-8 py-6">
-          <div class="flex flex-col sm:flex-row justify-between items-center text-sm">
-            <p class="text-gray-600 dark:text-gray-400">
-              © 2025 — <span class="font-medium">Keanu Fuchs</span>
-            </p>
-            <p class="text-gray-500 dark:text-gray-500 text-xs mt-2 sm:mt-0">
-              Built with ❤️ and Eleventy
-            </p>
-          </div>
-        </div>
+      <footer class="site-footer">
+        <span>© 2025 Keanu Fuchs</span>
+        <span>Built with Eleventy</span>
       </footer>
     </div>
   </body>
-  
+
   <script>
-    // Listen for changes in color scheme preference
-    if (window.matchMedia) {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      
-      function handleColorSchemeChange(e) {
-        if (e.matches) {
-          document.documentElement.classList.add('dark');
-          document.documentElement.style.colorScheme = 'dark';
-        } else {
-          document.documentElement.classList.remove('dark');
-          document.documentElement.style.colorScheme = 'light';
-        }
-      }
-      
-      // Listen for changes
-      mediaQuery.addListener(handleColorSchemeChange);
-      
-      // Set initial state (backup in case the inline script didn't work)
-      handleColorSchemeChange(mediaQuery);
-    }
-    
-    // Copy to clipboard functionality
     function addCopyButtons() {
       const codeBlocks = document.querySelectorAll('pre[class*="language-"], pre:not([class*="language-"])');
-      
+
       codeBlocks.forEach((codeBlock) => {
-        // Skip if already wrapped
-        if (codeBlock.parentElement.classList.contains('code-block-wrapper')) {
-          return;
-        }
-        
-        // Create wrapper
+        if (codeBlock.parentElement.classList.contains('code-block-wrapper')) return;
+
         const wrapper = document.createElement('div');
         wrapper.className = 'code-block-wrapper';
-        
-        // Create copy button
+
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
+        copyButton.type = 'button';
         copyButton.innerHTML = `
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
             <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
           </svg>
           Copy
         `;
-        
-        // Add click handler
+
         copyButton.addEventListener('click', async () => {
           const code = codeBlock.querySelector('code');
           const text = code ? code.textContent : codeBlock.textContent;
-          
+
           try {
             await navigator.clipboard.writeText(text);
-            
-            // Show success state
             copyButton.innerHTML = `
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20 6L9 17l-5-5"></path>
               </svg>
-              Copied!
+              Copied
             `;
             copyButton.classList.add('copied');
-            
-            // Reset after 2 seconds
             setTimeout(() => {
               copyButton.innerHTML = `
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
                 </svg>
@@ -1218,153 +107,97 @@
               `;
               copyButton.classList.remove('copied');
             }, 2000);
-            
           } catch (err) {
-            console.error('Failed to copy text: ', err);
-            
-            // Fallback for older browsers
             const textArea = document.createElement('textarea');
             textArea.value = text;
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-            
             try {
               document.execCommand('copy');
-              copyButton.innerHTML = `
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 6L9 17l-5-5"></path>
-                </svg>
-                Copied!
-              `;
               copyButton.classList.add('copied');
-              
-              setTimeout(() => {
-                copyButton.innerHTML = `
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
-                  </svg>
-                  Copy
-                `;
-                copyButton.classList.remove('copied');
-              }, 2000);
             } catch (fallbackErr) {
-              console.error('Fallback copy failed: ', fallbackErr);
+              console.error('Copy failed:', fallbackErr);
             }
-            
             document.body.removeChild(textArea);
           }
         });
-        
-        // Wrap the code block
+
         codeBlock.parentNode.insertBefore(wrapper, codeBlock);
         wrapper.appendChild(codeBlock);
         wrapper.appendChild(copyButton);
       });
     }
-    
-    // Image zoom functionality
+
     function addImageZoom() {
-      const images = document.querySelectorAll('img:not(.no-zoom)');
-      
-      images.forEach((img) => {
-        // Skip if already processed
-        if (img.classList.contains('zoomable-image')) {
-          return;
-        }
-        
-        // Add zoomable class and click handler
+      document.querySelectorAll('img:not(.no-zoom)').forEach((img) => {
+        if (img.classList.contains('zoomable-image')) return;
         img.classList.add('zoomable-image');
-        
         img.addEventListener('click', (e) => {
           e.preventDefault();
           openImageModal(img);
         });
       });
     }
-    
+
     function openImageModal(img) {
-      // Create modal if it doesn't exist
       let modal = document.getElementById('image-modal');
       if (!modal) {
         modal = document.createElement('div');
         modal.id = 'image-modal';
         modal.className = 'image-modal';
-        
+
         const modalContent = document.createElement('div');
         modalContent.className = 'image-modal-content';
-        
+
         const closeButton = document.createElement('button');
         closeButton.className = 'image-modal-close';
         closeButton.innerHTML = '×';
         closeButton.setAttribute('aria-label', 'Close image');
-        
+
         const loadingSpinner = document.createElement('div');
         loadingSpinner.className = 'image-loading';
-        
+
         modalContent.appendChild(closeButton);
         modalContent.appendChild(loadingSpinner);
         modal.appendChild(modalContent);
         document.body.appendChild(modal);
-        
-        // Close modal handlers
+
         closeButton.addEventListener('click', closeImageModal);
         modal.addEventListener('click', (e) => {
-          if (e.target === modal) {
-            closeImageModal();
-          }
+          if (e.target === modal) closeImageModal();
         });
-        
-        // Keyboard handler
         document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeImageModal();
-          }
+          if (e.key === 'Escape' && modal.classList.contains('active')) closeImageModal();
         });
       }
-      
+
       const modalContent = modal.querySelector('.image-modal-content');
       const loadingSpinner = modal.querySelector('.image-loading');
-      const closeButton = modal.querySelector('.image-modal-close');
-      
-      // Remove existing image if any
       const existingImg = modalContent.querySelector('img');
-      if (existingImg) {
-        existingImg.remove();
-      }
-      
-      // Show loading spinner
+      if (existingImg) existingImg.remove();
+
       loadingSpinner.style.display = 'block';
-      
-      // Create new image
+
       const modalImg = document.createElement('img');
       modalImg.style.display = 'none';
-      
       modalImg.onload = () => {
         loadingSpinner.style.display = 'none';
         modalImg.style.display = 'block';
       };
-      
       modalImg.onerror = () => {
         loadingSpinner.style.display = 'none';
-        console.error('Failed to load image for modal');
         closeImageModal();
       };
-      
       modalImg.addEventListener('click', closeImageModal);
-      
-      // Set image source and alt
       modalImg.src = img.src;
       modalImg.alt = img.alt || 'Zoomed image';
-      
+
       modalContent.appendChild(modalImg);
-      
-      // Show modal
       document.body.classList.add('modal-open');
       modal.classList.add('active');
     }
-    
+
     function closeImageModal() {
       const modal = document.getElementById('image-modal');
       if (modal) {
@@ -1372,53 +205,41 @@
         document.body.classList.remove('modal-open');
       }
     }
-    
-    // Table of Contents Functionality
+
     function generateTableOfContents() {
       const toc = document.getElementById('toc');
       const tocList = document.getElementById('toc-list');
       const content = document.getElementById('post-content');
-      
-      if (!toc || !tocList || !content) {
-        return; // Not on a post page
-      }
-      
+
+      if (!toc || !tocList || !content) return;
+
       const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
-      
       if (headings.length === 0) {
         toc.style.display = 'none';
         return;
       }
-      
-      // Clear existing TOC
+
       tocList.innerHTML = '';
-      
-      // Add title link at the top
-      const titleElement = document.querySelector('article header h1');
+
+      const titleElement = document.querySelector('.article-masthead h2');
       if (titleElement) {
         const titleLi = document.createElement('li');
         titleLi.className = 'toc-item toc-title-item';
-        
         const titleLink = document.createElement('a');
         titleLink.href = '#';
         titleLink.className = 'toc-link';
         titleLink.textContent = titleElement.textContent.trim();
-        titleLink.title = 'Zurück zum Anfang';
-        
-        // Scroll to top behavior without bounce
+        titleLink.title = 'Back to top';
         titleLink.addEventListener('click', (e) => {
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        
         titleLi.appendChild(titleLink);
         tocList.appendChild(titleLi);
       }
-      
-      // Generate TOC items (no title link)
+
       const tocItems = [];
       headings.forEach((heading, index) => {
-        // Create unique ID if not exists
         if (!heading.id) {
           const id = heading.textContent
             .toLowerCase()
@@ -1428,159 +249,108 @@
             .replace(/^-|-$/g, '');
           heading.id = id || `heading-${index}`;
         }
-        
+
         const level = parseInt(heading.tagName.charAt(1));
-        const text = heading.textContent.trim();
-        const id = heading.id;
-        
         const li = document.createElement('li');
         li.className = `toc-item toc-h${level}`;
-        
+
         const link = document.createElement('a');
-        link.href = `#${id}`;
+        link.href = `#${heading.id}`;
         link.className = 'toc-link';
-        link.textContent = text;
-        link.title = text; // Tooltip for longer titles
-        
-        // Smooth scroll behavior - allow natural bounce
+        link.textContent = heading.textContent.trim();
+        link.title = heading.textContent.trim();
         link.addEventListener('click', (e) => {
           e.preventDefault();
-          const target = document.getElementById(id);
+          const target = document.getElementById(heading.id);
           if (target) {
-            const yOffset = -80; // Offset for fixed header
-            const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            // Allow natural scrolling without clamping for bounce effect
+            const y = target.getBoundingClientRect().top + window.pageYOffset - 24;
             window.scrollTo({ top: y, behavior: 'smooth' });
           }
         });
-        
+
         li.appendChild(link);
         tocList.appendChild(li);
-        tocItems.push({ element: li, heading: heading });
+        tocItems.push({ element: li, heading });
       });
-      
-      // Setup scroll spy
+
       setupScrollSpy(tocItems);
     }
-    
+
     function setupScrollSpy(tocItems) {
       const titleItem = document.querySelector('.toc-title-item');
-      
-      const observerOptions = {
-        root: null,
-        rootMargin: '-20% 0px -35% 0px',
-        threshold: 0
-      };
-      
+
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const tocItem = tocItems.find(item => item.heading === entry.target);
-          if (tocItem) {
-            if (entry.isIntersecting) {
-              // Remove active from all items including title
-              tocItems.forEach(item => item.element.classList.remove('active'));
-              if (titleItem) titleItem.classList.remove('active');
-              
-              // Add active to current item
-              tocItem.element.classList.add('active');
-              
-              // Scroll TOC to keep active item visible
-              tocItem.element.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
-                inline: 'nearest'
-              });
-            }
+          if (tocItem && entry.isIntersecting) {
+            tocItems.forEach(item => item.element.classList.remove('active'));
+            if (titleItem) titleItem.classList.remove('active');
+            tocItem.element.classList.add('active');
+            tocItem.element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }
         });
-      }, observerOptions);
-      
-      // Additional scroll listener to handle top of page (prevent bounce)
+      }, { root: null, rootMargin: '-20% 0px -35% 0px', threshold: 0 });
+
       let ticking = false;
       function handleScroll() {
         if (!ticking) {
           requestAnimationFrame(() => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // If we're at the very top (within 100px), activate title
             if (scrollTop < 100 && titleItem) {
-              // Remove active from all heading items
               tocItems.forEach(item => item.element.classList.remove('active'));
               titleItem.classList.add('active');
             }
-            
             ticking = false;
           });
           ticking = true;
         }
       }
-      
+
       window.addEventListener('scroll', handleScroll, { passive: true });
-      
-      // Initial check
       handleScroll();
-      
-      // Observe all headings
       tocItems.forEach(item => observer.observe(item.heading));
     }
-    
-    // Hide TOC on non-post pages
+
     function hideTocOnNonPostPages() {
       const toc = document.getElementById('toc');
       const content = document.getElementById('post-content');
-      
-      if (toc && !content) {
-        toc.style.display = 'none';
-      }
-    }    // Initialize copy buttons when DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        addCopyButtons();
-        addImageZoom();
-        generateTableOfContents();
-        hideTocOnNonPostPages();
-      });
-    } else {
+      if (toc && !content) toc.style.display = 'none';
+    }
+
+    function init() {
       addCopyButtons();
       addImageZoom();
       generateTableOfContents();
       hideTocOnNonPostPages();
     }
-    
-    // Re-initialize copy buttons and image zoom after any dynamic content changes
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-          // Check if any new code blocks were added
-          const hasNewCodeBlocks = Array.from(mutation.addedNodes).some(node => 
+          const hasNewCodeBlocks = Array.from(mutation.addedNodes).some(node =>
             node.nodeType === 1 && (
-              node.querySelector && node.querySelector('pre[class*="language-"], pre:not([class*="language-"])') ||
+              (node.querySelector && node.querySelector('pre[class*="language-"], pre:not([class*="language-"])')) ||
               node.tagName === 'PRE'
             )
           );
-          
-          // Check if any new images were added
-          const hasNewImages = Array.from(mutation.addedNodes).some(node => 
+          const hasNewImages = Array.from(mutation.addedNodes).some(node =>
             node.nodeType === 1 && (
-              node.querySelector && node.querySelector('img') ||
+              (node.querySelector && node.querySelector('img')) ||
               node.tagName === 'IMG'
             )
           );
-          
-          if (hasNewCodeBlocks) {
-            setTimeout(addCopyButtons, 100); // Small delay to ensure Prism.js has processed
-          }
-          
-          if (hasNewImages) {
-            setTimeout(addImageZoom, 100); // Small delay to ensure images are loaded
-          }
+          if (hasNewCodeBlocks) setTimeout(addCopyButtons, 100);
+          if (hasNewImages) setTimeout(addImageZoom, 100);
         }
       });
     });
-    
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
   </script>
 </html>
