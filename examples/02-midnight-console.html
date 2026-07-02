@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SpelkBlog — Midnight Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-raised: #111111;
+      --bg-hover: #1a1a1a;
+      --amber: #ffb000;
+      --amber-dim: #996a00;
+      --green: #33ff33;
+      --green-dim: #1a801a;
+      --text: #c8c8c8;
+      --text-dim: #666;
+      --border: #2a2a2a;
+      --glow: rgba(255, 176, 0, 0.15);
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* CRT scanline overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* Vignette */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%);
+      pointer-events: none;
+      z-index: 9997;
+    }
+
+    .terminal-chrome {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      padding: 0.6rem 1rem;
+      background: var(--bg-raised);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+
+    .terminal-chrome .path {
+      margin-left: 1rem;
+      color: var(--amber-dim);
+    }
+
+    .terminal-chrome .path span { color: var(--green); }
+
+    header {
+      padding: 2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      max-width: 52rem;
+      margin: 0 auto;
+    }
+
+    .prompt-line {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--green-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .prompt-line .user { color: var(--green); }
+    .prompt-line .path { color: var(--amber); }
+    .prompt-line .cmd { color: var(--text); }
+
+    h1 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 600;
+      color: var(--amber);
+      text-shadow: 0 0 20px var(--glow);
+      margin-bottom: 0.5rem;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      max-width: 36rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    nav a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      border-right: 1px solid var(--border);
+      transition: color 0.15s, background 0.15s;
+    }
+
+    nav a:first-child { border-left: 1px solid var(--border); }
+    nav a:hover, nav a.active {
+      color: var(--amber);
+      background: var(--bg-hover);
+    }
+
+    .container {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .status-bar {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed var(--border);
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .status-bar .ok { color: var(--green); }
+
+    /* Post entries as log lines */
+    .log-section h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      margin-bottom: 1rem;
+    }
+
+    .log-entry {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .log-entry:hover {
+      background: var(--bg-hover);
+      margin: 0 -1rem;
+      padding: 1rem;
+    }
+
+    @media (max-width: 500px) {
+      .log-entry { grid-template-columns: 1fr; gap: 0.25rem; }
+    }
+
+    .log-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .log-content h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 0.35rem;
+    }
+
+    .log-content h3 a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .log-content h3 a:hover { color: var(--amber); }
+
+    .log-content p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .log-tags {
+      margin-top: 0.5rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .log-tags span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--green-dim);
+      border: 1px solid var(--border);
+      padding: 0.1rem 0.4rem;
+    }
+
+    /* Article preview */
+    .article-section {
+      margin-top: 3rem;
+      border: 1px solid var(--border);
+      background: var(--bg-raised);
+    }
+
+    .article-header {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .article-header .filename { color: var(--amber); }
+
+    .article-body {
+      padding: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .article-body h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .article-body .meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .article-body h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--amber);
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    .article-body h2::before { content: '## '; color: var(--text-dim); }
+
+    .article-body p { margin-bottom: 1rem; color: var(--text); }
+
+    .article-body pre {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      margin: 1rem 0;
+      color: var(--green);
+    }
+
+    .article-body .comment { color: var(--text-dim); }
+    .article-body .flag { color: var(--amber); }
+    .article-body .string { color: #ff79c6; }
+
+    .article-body blockquote {
+      border-left: 2px solid var(--amber-dim);
+      padding: 0.5rem 0 0.5rem 1rem;
+      margin: 1rem 0;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    footer {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a { color: var(--amber-dim); text-decoration: none; }
+    footer a:hover { color: var(--amber); }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--amber);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal-chrome">
+    <span class="dot dot-r"></span>
+    <span class="dot dot-y"></span>
+    <span class="dot dot-g"></span>
+    <span class="path">keanu@spelk:<span>~/blog</span></span>
+  </div>
+
+  <header>
+    <p class="prompt-line">
+      <span class="user">keanu</span>@<span class="path">spelk</span>:<span class="path">~</span>$
+      <span class="cmd">cat welcome.txt</span>
+    </p>
+    <h1>SPELK_BLOG<span class="cursor"></span></h1>
+    <p class="tagline">// Technische Lösungen für Probleme ohne Stack Overflow-Antwort</p>
+  </header>
+
+  <nav>
+    <a href="#" class="active">~/posts</a>
+    <a href="#">~/about</a>
+    <a href="#">~/archive</a>
+    <a href="index.html">~/designs</a>
+  </nav>
+
+  <div class="container">
+    <div class="status-bar">
+      <span>STATUS: <span class="ok">ONLINE</span></span>
+      <span>POSTS: 5</span>
+      <span>UPTIME: 99.97%</span>
+      <span>LAST_SYNC: 2026-07-02</span>
+    </div>
+
+    <section class="log-section">
+      <h2>// recent_entries.log</h2>
+
+      <article class="log-entry">
+        <time class="log-date">2026-07-01</time>
+        <div class="log-content">
+          <h3><a href="#">cisco-sea-nbapi-spec-bugs.md</a></h3>
+          <p>Spezifikationsfehler in der Cisco SEA NBAPI — was die Doku verschweigt und wie man trotzdem weiterkommt.</p>
+          <div class="log-tags"><span>cisco</span><span>api</span><span>debug</span></div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <time class="log-date">2025-11-21</time>
+        <div class="log-content">
+          <h3><a href="#">software-update-checkliste.md</a></h3>
+          <p>Strukturierte Checkliste für Produktions-Updates. Kein Feature, das man überspringen sollte.</p>
+          <div class="log-tags"><span>devops</span><span>ops</span></div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <time class="log-date">2025-09-22</time>
+        <div class="log-content">
+          <h3><a href="#">minecraft-mcboot.md</a></h3>
+          <p>systemd-Unit für einen Minecraft-Server, der auch ohne Aufsicht zuverlässig startet.</p>
+          <div class="log-tags"><span>linux</span><span>systemd</span></div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <time class="log-date">2025-09-21</time>
+        <div class="log-content">
+          <h3><a href="#">bios-recovery-supermicro.md</a></h3>
+          <p>Board gebrickt? Supermicro BIOS Recovery Schritt für Schritt.</p>
+          <div class="log-tags"><span>hardware</span><span>supermicro</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="article-section">
+      <div class="article-header">
+        <span>vim <span class="filename">bios-recovery-supermicro.md</span></span>
+        <span>:wq</span>
+      </div>
+      <div class="article-body">
+        <h1>BIOS Recovery auf Supermicro-Boards</h1>
+        <p class="meta">author: keanu | date: 2025-09-21 | tags: [hardware, supermicro]</p>
+
+        <p>Ein gebricktes Mainboard ist der Albtraum jedes Sysadmins. Supermicro hat Recovery-Mechanismen — aber die Doku hilft selten.</p>
+
+        <h2>Voraussetzungen</h2>
+        <p>USB-Stick, korrekte BIOS-Datei vom Support-Portal, und vor allem: nicht panisch werden.</p>
+
+        <blockquote>// TIP: Immer Backup der aktuellen Config ziehen, auch wenn du denkst du brauchst es nicht.</blockquote>
+
+        <pre><span class="comment"># Boot von USB-Floppy emulieren via IPMI</span>
+<span class="flag">$</span> ipmitool -I lanplus -H 192.168.1.100 \
+    -U ADMIN -P password chassis bootdev floppy
+
+<span class="comment"># BIOS flashen</span>
+<span class="flag">$</span> flashrom -p internal -w <span class="string">bios.rom</span></pre>
+
+        <p>Der Rest ist Routine — wenn die Datei stimmt.</p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <a href="index.html">← cd ~/designs</a><br><br>
+    © 2025 keanu@spelk · Midnight Console
+  </footer>
+</body>
+</html>

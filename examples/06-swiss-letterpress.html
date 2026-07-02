@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SpelkBlog — Swiss Letterpress</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper: #f4efe6;
+      --paper-dark: #e8e0d4;
+      --ink: #1a1714;
+      --ink-soft: #3d3832;
+      --muted: #7a7268;
+      --rust: #9b3d2e;
+      --rust-bright: #c4523f;
+      --rule: #cfc5b8;
+      --col: 4.5rem;
+    }
+
+    ::selection { background: var(--rust); color: var(--paper); }
+
+    html { font-size: 17px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Literata', Georgia, serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.75;
+    }
+
+    /* Paper grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Swiss column grid on paper */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(to right, rgba(155, 61, 46, 0.06) 1px, transparent 1px);
+      background-size: var(--col) 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: calc(var(--col) * 14);
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+
+    /* ── Header: Swiss structure, letterpress soul ── */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      padding: 3rem 0 2rem;
+      border-bottom: 4px solid var(--ink);
+      margin-bottom: 0;
+    }
+
+    .logo-mark {
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 0.6rem;
+    }
+
+    h1.site-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      color: var(--ink);
+    }
+
+    h1.site-title span {
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink-soft);
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.2rem;
+      font-family: 'Archivo', sans-serif;
+    }
+
+    nav a {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      padding: 0.2rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--rust);
+      border-bottom-color: var(--rust);
+    }
+
+    /* Double rule — letterpress */
+    .double-rule {
+      height: 6px;
+      border-bottom: 1px solid var(--ink);
+      margin-bottom: 3rem;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 0;
+    }
+
+    @media (min-width: 768px) {
+      .hero { grid-template-columns: 5fr 3fr; align-items: end; }
+    }
+
+    .hero-statement {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.45;
+      color: var(--ink-soft);
+      max-width: 26rem;
+    }
+
+    .hero-statement em {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--ink);
+      background: linear-gradient(180deg, transparent 60%, rgba(155, 61, 46, 0.15) 60%);
+    }
+
+    .hero-meta {
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.9;
+      border-left: 3px solid var(--rust);
+      padding-left: 1.25rem;
+    }
+
+    .hero-meta strong {
+      display: block;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+
+    /* ── Section label (Swiss) ── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 2.5rem 0 1rem;
+    }
+
+    .section-label span {
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--rust);
+      white-space: nowrap;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ── Post table on warm paper ── */
+    .post-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Archivo', sans-serif;
+    }
+
+    .post-table th {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 0.85rem 0.5rem 0.85rem 0;
+      border-bottom: 2px solid var(--ink);
+      color: var(--muted);
+    }
+
+    .post-table td {
+      padding: 1.15rem 0.5rem 1.15rem 0;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+
+    .post-table tbody tr {
+      transition: background 0.12s;
+      cursor: pointer;
+    }
+
+    .post-table tbody tr:hover {
+      background: rgba(155, 61, 46, 0.04);
+    }
+
+    .post-table tbody tr:hover .title-link {
+      color: var(--rust);
+    }
+
+    .post-table .num {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--rule);
+      width: 2rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .post-table .date {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--muted);
+      width: 6.5rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .title-link {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.15s;
+      display: block;
+      line-height: 1.3;
+    }
+
+    .post-table .desc {
+      font-family: 'Literata', serif;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      line-height: 1.55;
+      max-width: 30rem;
+    }
+
+    .post-table .tag {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.2rem 0.5rem;
+      display: inline-block;
+    }
+
+    @media (max-width: 640px) {
+      .post-table thead { display: none; }
+      .post-table tr { display: block; padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+      .post-table td { display: block; padding: 0.2rem 0; border: none; }
+      .post-table .num { display: none; }
+    }
+
+    /* ── Article: Swiss grid + letterpress prose ── */
+    .article-block {
+      margin: 3rem 0 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      box-shadow: 4px 4px 0 rgba(26, 23, 20, 0.06);
+    }
+
+    @media (min-width: 768px) {
+      .article-block { grid-template-columns: 5fr 8fr; }
+    }
+
+    .article-sidebar {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 2rem 1.75rem;
+      position: relative;
+    }
+
+    .article-sidebar::after {
+      content: '';
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      left: 1rem;
+      border: 1px solid rgba(244, 239, 230, 0.12);
+      pointer-events: none;
+    }
+
+    .article-sidebar .label {
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(244, 239, 230, 0.45);
+      margin-bottom: 1.25rem;
+    }
+
+    .article-sidebar h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .article-sidebar .meta {
+      margin-top: 1.75rem;
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.7rem;
+      color: rgba(244, 239, 230, 0.5);
+      line-height: 2;
+      letter-spacing: 0.03em;
+    }
+
+    .article-sidebar .meta .rust { color: var(--rust-bright); }
+
+    .article-content {
+      padding: 2rem 2rem 2.5rem;
+      border-left: 1px solid var(--rule);
+    }
+
+    @media (max-width: 767px) {
+      .article-content { border-left: none; border-top: 1px solid var(--rule); }
+    }
+
+    .drop-cap::first-letter {
+      font-family: 'Fraunces', serif;
+      font-size: 3.25rem;
+      font-weight: 700;
+      float: left;
+      line-height: 0.82;
+      margin: 0.08rem 0.45rem 0 0;
+      color: var(--rust);
+    }
+
+    .article-content p {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      margin-bottom: 1.15rem;
+      max-width: 36rem;
+    }
+
+    .article-content h3 {
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin: 1.75rem 0 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .article-content h3::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+      max-width: 4rem;
+    }
+
+    .article-content pre {
+      background: var(--paper-dark);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--rust);
+      padding: 1rem 1.25rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.76rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      margin: 1rem 0;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+      color: var(--ink);
+    }
+
+    .article-content code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      background: var(--paper-dark);
+      border: 1px solid var(--rule);
+      padding: 0.1rem 0.35rem;
+      color: var(--rust);
+    }
+
+    .article-content blockquote {
+      margin: 1.5rem 0;
+      padding: 1rem 0 1rem 1.25rem;
+      border-left: 3px solid var(--ink);
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--muted);
+      background: linear-gradient(90deg, var(--paper-dark), transparent);
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 4px solid var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--rust);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    .back-link {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 200;
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--rule);
+      padding: 0.5rem 0.85rem;
+      background: var(--paper);
+      box-shadow: 2px 2px 0 rgba(26, 23, 20, 0.08);
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .back-link:hover { color: var(--rust); border-color: var(--rust); }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <a class="back-link" href="index.html">← Designs</a>
+
+  <div class="page">
+    <header>
+      <div>
+        <p class="logo-mark">Keanu Fuchs · Field Notes</p>
+        <h1 class="site-title">Spelk<span>Blog</span></h1>
+      </div>
+      <nav>
+        <a href="#" class="active">Artikel</a>
+        <a href="#">Über</a>
+        <a href="#">Archiv</a>
+        <a href="index.html">Designs</a>
+      </nav>
+    </header>
+
+    <div class="double-rule"></div>
+
+    <section class="hero">
+      <p class="hero-statement">
+        Technische Lösungen für Probleme, die <em>Google nicht kennt</em> — persönliches Notizbuch, öffentlich lesbar.
+      </p>
+      <div class="hero-meta">
+        <strong>Fokus</strong>
+        Linux · Cisco · DevOps<br>
+        Hardware · APIs · Ops
+        <br><br>
+        <strong>Stand</strong>
+        5 Artikel · Zuletzt Juli 2026
+      </div>
+    </section>
+
+    <div class="section-label"><span>Alle Einträge</span></div>
+
+    <table class="post-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Datum</th>
+          <th>Titel</th>
+          <th>Tag</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onclick="location.href='#article'">
+          <td class="num">01</td>
+          <td class="date">21.11.25</td>
+          <td>
+            <a class="title-link" href="#article">Cisco Catalyst Software Update Checklist</a>
+            <p class="desc">Strukturierte Vorbereitung vor jedem Image-Update — Install Mode, Stack-Integrität, Backup.</p>
+          </td>
+          <td><span class="tag">Cisco</span></td>
+        </tr>
+        <tr>
+          <td class="num">02</td>
+          <td class="date">01.07.26</td>
+          <td>
+            <a class="title-link" href="#">Cisco SEA NBAPI Spec Bugs</a>
+            <p class="desc">API-Spezifikationen, die nicht halten, was sie versprechen.</p>
+          </td>
+          <td><span class="tag">API</span></td>
+        </tr>
+        <tr>
+          <td class="num">03</td>
+          <td class="date">22.09.25</td>
+          <td>
+            <a class="title-link" href="#">Supermicro BIOS Recovery</a>
+            <p class="desc">Wenn das Mainboard nicht mehr bootet — Schritt für Schritt zurück ins Leben.</p>
+          </td>
+          <td><span class="tag">Hardware</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-label"><span>Artikel-Vorschau</span></div>
+
+    <div class="article-block" id="article">
+      <aside class="article-sidebar">
+        <p class="label">Vorschau · Typografie</p>
+        <h2>Cisco Catalyst Software Update Checklist</h2>
+        <div class="meta">
+          <span class="rust">Keanu Fuchs</span><br>
+          21. November 2025<br>
+          Networking · Cisco<br>
+          ~8 Min. Lesezeit
+        </div>
+      </aside>
+      <div class="article-content">
+        <p class="drop-cap">Before performing a software update on network devices, thorough and structured preparation is worthwhile. This checklist guides you through all relevant checks.</p>
+
+        <h3>Check Operating Mode &amp; Version</h3>
+        <p>Execute the following commands to verify boot behavior and uptime:</p>
+        <pre>show version
+show boot</pre>
+        <p>Determine whether the system runs in <strong>Install Mode</strong> or <strong>Bundle Mode</strong>.</p>
+
+        <blockquote>Every problem solved is a lesson learned — and every lesson learned should be shared.</blockquote>
+
+        <h3>Backup Configuration</h3>
+        <pre>write
+show startup-config</pre>
+        <p>External backup via <code>TFTP</code>, <code>FTP</code>, or <code>SCP</code> empfohlen.</p>
+      </div>
+    </div>
+
+    <footer>
+      <span>© 2025 Keanu Fuchs</span>
+      <span>Swiss Letterpress · Beispiel 10</span>
+    </footer>
+  </div>
+</body>
+</html>
