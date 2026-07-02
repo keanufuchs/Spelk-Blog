@@ -440,14 +440,14 @@ h1.site-title span {
 .article-block {
   margin: 2rem 0 0;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   border: 1px solid var(--rule);
   background: var(--paper);
   box-shadow: 4px 4px 0 rgba(26, 23, 20, 0.06);
 }
 
 @media (min-width: 768px) {
-  .article-block { grid-template-columns: 5fr 8fr; }
+  .article-block { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); }
 }
 
 .article-sidebar {
@@ -455,6 +455,7 @@ h1.site-title span {
   color: var(--paper);
   padding: 1.75rem 1.5rem;
   position: relative;
+  min-width: 0;
 }
 
 @media (min-width: 768px) {
@@ -503,6 +504,7 @@ h1.site-title span {
 .article-content {
   padding: 1.5rem 1.25rem 2rem;
   border-top: 1px solid var(--rule);
+  min-width: 0;
 }
 
 @media (min-width: 768px) {
@@ -511,6 +513,11 @@ h1.site-title span {
     border-top: none;
     border-left: 1px solid var(--rule);
   }
+}
+
+.prose {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 /* ── Prose / article typography ── */
@@ -637,6 +644,8 @@ h1.site-title span {
 }
 
 .prose table {
+  display: block;
+  overflow-x: auto;
   width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
@@ -675,6 +684,8 @@ h1.site-title span {
   padding: 1rem 1.25rem !important;
   margin: 1rem 0 !important;
   overflow-x: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05) !important;
   font-family: 'Courier New', monospace !important;
   font-size: 0.76rem !important;
@@ -702,6 +713,8 @@ h1.site-title span {
   padding: 0.1rem 0.35rem;
   color: var(--rust);
   border-radius: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .code-block-wrapper { position: relative; }
@@ -776,34 +789,28 @@ h1.site-title span {
 
 .about-avatar {
   position: relative;
-  width: 7.5rem;
-  height: 7.5rem;
+  flex-shrink: 0;
+  width: 9rem;
+  height: 9rem;
   margin: 0 auto;
-  background: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.4rem;
+  background: var(--paper);
+  border: 1px solid var(--ink);
   box-shadow: 4px 4px 0 rgba(26, 23, 20, 0.1);
 }
 
 @media (min-width: 768px) {
-  .about-avatar { margin: 0; width: 8.5rem; height: 8.5rem; }
+  .about-avatar { margin: 0; }
 }
 
-.about-avatar::before {
-  content: '';
-  position: absolute;
-  inset: 0.5rem;
-  border: 1px solid rgba(244, 239, 230, 0.15);
-  pointer-events: none;
-}
-
-.about-avatar span {
-  font-family: 'Fraunces', serif;
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: var(--paper);
-  letter-spacing: -0.02em;
+.about-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  display: block;
+  border: 1px solid var(--rule);
+  filter: sepia(0.1) contrast(1.04) saturate(0.88);
 }
 
 .about-hero-content { min-width: 0; }
@@ -884,10 +891,20 @@ h1.site-title span {
 }
 
 .about-stat .icon {
-  font-size: 1.25rem;
-  line-height: 1;
-  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.4rem;
+  color: var(--rust);
+  transition: color 0.15s;
 }
+
+.about-stat .icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.about-stat:hover .icon { color: var(--ink); }
 
 .about-stat .label {
   font-family: 'Archivo', sans-serif;
@@ -1228,22 +1245,6 @@ h1.site-title span {
 
 @media (max-width: 1200px) {
   .toc-nav { display: none; }
-}
-
-@media (max-width: 768px) {
-  .toc-nav {
-    display: block;
-    top: auto;
-    bottom: 1rem;
-    right: 1rem;
-    left: 1rem;
-    width: auto;
-    max-height: 50vh;
-    transform: translateY(calc(100% - 3rem));
-    transition: transform 0.3s ease;
-  }
-
-  .toc-nav.expanded { transform: translateY(0); }
 }
 
 /* ── Image zoom ── */
