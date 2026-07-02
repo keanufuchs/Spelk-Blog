@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SpelkBlog — Design Examples</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0c;
+      --surface: #141414;
+      --border: #2a2a2a;
+      --text: #e8e4df;
+      --muted: #8a8580;
+      --accent: #c9a96e;
+    }
+
+    html { font-size: 18px; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 36rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .card {
+      display: grid;
+      grid-template-columns: 4rem 1fr;
+      gap: 1.25rem;
+      align-items: start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .card-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      opacity: 0.7;
+    }
+
+    .card h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      margin-bottom: 0.35rem;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.5rem;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">SpelkBlog Redesign</p>
+      <h1>Design-Beispiele</h1>
+      <p class="subtitle">Zehn eigenständige Richtungen — fancy, klassisch, handgemacht. Jede Seite ist ein vollständiges Mockup mit Startseite und Artikel-Typografie.</p>
+    </header>
+
+    <div class="grid">
+      <a class="card" href="01-editorial-noir.html">
+        <span class="card-num">01</span>
+        <div>
+          <h2>Editorial Noir</h2>
+          <p>Dunkles Magazin-Layout. Playfair &amp; Lora, Goldakzente, feine Linien — wie ein gedrucktes Tech-Journal um Mitternacht.</p>
+          <div class="card-tags">
+            <span class="tag">Serif</span>
+            <span class="tag">Dark</span>
+            <span class="tag">Luxury</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="01-editorial-heritage.html">
+        <span class="card-num">02</span>
+        <div>
+          <h2>Editorial Heritage</h2>
+          <p>Helles Zeitungs-Layout. Cormorant Garamond &amp; Libre Baskerville, Rostrot auf Cremepapier — klassische Typografie wie eine gedruckte Ausgabe.</p>
+          <div class="card-tags">
+            <span class="tag">Serif</span>
+            <span class="tag">Light</span>
+            <span class="tag">Newspaper</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="02-letterpress.html">
+        <span class="card-num">03</span>
+        <div>
+          <h2>Letterpress</h2>
+          <p>Warmes Papier, Letterpress-Tiefe, Fraunces &amp; Literata. Persönliches Notizbuch — gedruckt, nicht generiert.</p>
+          <div class="card-tags">
+            <span class="tag">Warm</span>
+            <span class="tag">Paper</span>
+            <span class="tag">Editorial</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="02-midnight-console.html">
+        <span class="card-num">04</span>
+        <div>
+          <h2>Midnight Console</h2>
+          <p>IBM Plex Mono &amp; Sans, Amber auf Schwarz, Log-Datei-Listing. Terminal-Ästhetik mit Status-Bar und Prompt-Navigation.</p>
+          <div class="card-tags">
+            <span class="tag">Monospace</span>
+            <span class="tag">Console</span>
+            <span class="tag">Dark</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="03-midnight-terminal.html">
+        <span class="card-num">05</span>
+        <div>
+          <h2>Midnight Terminal</h2>
+          <p>IBM Plex Mono auf tiefem Schwarz, Amber-Glow, Scanlines. Fenster-Chrome mit ASCII-Banner und <code>ls</code>-Listing.</p>
+          <div class="card-tags">
+            <span class="tag">Monospace</span>
+            <span class="tag">Retro-Tech</span>
+            <span class="tag">Dark</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="03-swiss-precision.html">
+        <span class="card-num">06</span>
+        <div>
+          <h2>Swiss Precision</h2>
+          <p>Schweizer Raster-Design. Archivo, Schwarz/Weiß mit Rotakzent, strenge Typografie und tabellarische Post-Liste.</p>
+          <div class="card-tags">
+            <span class="tag">Grid</span>
+            <span class="tag">Minimal</span>
+            <span class="tag">Swiss</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="04-blueprint.html">
+        <span class="card-num">07</span>
+        <div>
+          <h2>Blueprint</h2>
+          <p>Technische Zeichnung: Cyan auf Navy, gestrichelte Linien, Barlow Condensed. Cisco-Doku trifft Architekturplan.</p>
+          <div class="card-tags">
+            <span class="tag">Technical</span>
+            <span class="tag">Grid</span>
+            <span class="tag">Engineering</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="04-neo-personal.html">
+        <span class="card-num">08</span>
+        <div>
+          <h2>Neo Personal Web</h2>
+          <p>Frühes Personal-Web: Verdana, Beige-Töne, Sidebar mit Avatar, Tab-Navigation. Geocities trifft handgemachten Blog.</p>
+          <div class="card-tags">
+            <span class="tag">Retro</span>
+            <span class="tag">Personal</span>
+            <span class="tag">Warm</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="05-css-wundertuete.html">
+        <span class="card-num">09</span>
+        <div>
+          <h2>CSS Wundertüte</h2>
+          <p>CSS3-Zauberei à la 2012: Teal &amp; Coral, Pill-Buttons, Widget-Sidebar, gestrichelte Boxen, Regenbogen-Streifen und „Valid CSS3“-Stempel.</p>
+          <div class="card-tags">
+            <span class="tag">CSS3</span>
+            <span class="tag">Playful</span>
+            <span class="tag">Retro-Web</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="06-swiss-letterpress.html">
+        <span class="card-num">10</span>
+        <div>
+          <h2>Swiss Letterpress</h2>
+          <p>Hybrid: warmes Papier &amp; Fraunces trifft Archivo-Raster, Tabellen-Index und Rostakzent. Schweizer Präzision — gedruckt, nicht digital kalt.</p>
+          <div class="card-tags">
+            <span class="tag">Hybrid</span>
+            <span class="tag">Grid</span>
+            <span class="tag">Editorial</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <footer>
+      Öffne die Dateien direkt im Browser oder via <code>npm run dev</code> unter <code>/examples/</code>.
+    </footer>
+  </div>
+</body>
+</html>
