@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SpelkBlog — CSS Wundertüte</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #fffef5;
+      --paper: #f4f0e6;
+      --ink: #2a2a2a;
+      --muted: #6b6560;
+      --teal: #1a9e8f;
+      --teal-dark: #0d6b60;
+      --coral: #e85d4c;
+      --mustard: #e8b44c;
+      --plum: #7b4f8a;
+      --sky: #4a9fd4;
+      --lime: #6ab04c;
+      --shadow: rgba(0, 0, 0, 0.12);
+    }
+
+    html { font-size: 15px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, sans-serif;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(232, 180, 76, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(26, 158, 143, 0.12) 0%, transparent 50%),
+        linear-gradient(135deg, #e8e2d4 0%, #f0ebe0 50%, #e5dfd2 100%);
+      color: var(--ink);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* Polka dot overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 18px 18px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 58rem;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 4rem;
+    }
+
+    /* ── Ribbon header ── */
+    .ribbon-wrap {
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 4px 6px var(--shadow));
+    }
+
+    .ribbon {
+      background: linear-gradient(180deg, var(--teal) 0%, var(--teal-dark) 100%);
+      border: 3px solid #fff;
+      border-radius: 12px;
+      padding: 1.75rem 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ribbon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--coral), var(--mustard), var(--lime), var(--sky), var(--plum));
+    }
+
+    .ribbon::after {
+      content: '✦ CSS3 · handgemacht · 2025 ✦';
+      position: absolute;
+      bottom: 0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.45);
+      white-space: nowrap;
+    }
+
+    .ribbon h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: normal;
+      color: #fff;
+      text-shadow: 0 2px 0 rgba(0,0,0,0.2), 0 0 20px rgba(255,255,255,0.15);
+      letter-spacing: 0.04em;
+    }
+
+    .ribbon .tagline {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.9rem;
+      margin-top: 0.35rem;
+      font-style: italic;
+    }
+
+    /* ── Nav pills ── */
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .nav-pills a {
+      display: inline-block;
+      padding: 0.45rem 1.1rem;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: var(--ink);
+      background: linear-gradient(180deg, #fff 0%, #e8e4dc 100%);
+      border: 2px solid #ccc;
+      border-radius: 20px;
+      box-shadow: 0 2px 0 #bbb, inset 0 1px 0 #fff;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .nav-pills a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 0 #aaa, inset 0 1px 0 #fff;
+    }
+
+    .nav-pills a.active {
+      color: #fff;
+      background: linear-gradient(180deg, var(--coral) 0%, #c94a3a 100%);
+      border-color: #a83d30;
+      box-shadow: 0 2px 0 #8a3228, inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+
+    .nav-pills a.designs {
+      color: var(--plum);
+      border-color: var(--plum);
+      background: linear-gradient(180deg, #f8f0fa 0%, #e8dce8 100%);
+    }
+
+    /* ── Layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 14rem;
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    /* ── Widget sidebar ── */
+    .sidebar { display: flex; flex-direction: column; gap: 1rem; }
+
+    .widget {
+      background: var(--cream);
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+
+    .widget-head {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    }
+
+    .widget-head.teal { background: linear-gradient(90deg, var(--teal), #2bb8a8); }
+    .widget-head.coral { background: linear-gradient(90deg, var(--coral), #f07060); }
+    .widget-head.plum { background: linear-gradient(90deg, var(--plum), #9a6aaa); }
+
+    .widget-body {
+      padding: 0.85rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .widget-body strong { color: var(--ink); }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.3rem 0;
+      border-bottom: 1px dashed #ddd;
+    }
+
+    .stat-row:last-child { border-bottom: none; }
+
+    .stat-val {
+      font-weight: bold;
+      color: var(--teal-dark);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+    }
+
+    .mini-badge {
+      font-size: 0.6rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .mini-badge.cisco { background: var(--sky); }
+    .mini-badge.linux { background: var(--lime); }
+    .mini-badge.hw { background: var(--mustard); color: #5a4a10; }
+    .mini-badge.api { background: var(--plum); }
+
+    /* ── Post cards (Wundertüten-Boxen) ── */
+    .posts { display: flex; flex-direction: column; gap: 1rem; }
+
+    .post-box {
+      background: var(--cream);
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 4px 4px 0 var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .post-box:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--shadow);
+    }
+
+    .post-box:nth-child(1) .post-strip { background: linear-gradient(90deg, var(--teal), #2cc4b4); }
+    .post-box:nth-child(2) .post-strip { background: linear-gradient(90deg, var(--sky), #6ab8e0); }
+    .post-box:nth-child(3) .post-strip { background: linear-gradient(90deg, var(--mustard), #f0c860); }
+
+    .post-strip {
+      height: 6px;
+    }
+
+    .post-inner {
+      padding: 1.1rem 1.25rem;
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .post-date-box {
+      background: linear-gradient(135deg, var(--paper) 0%, #e8e2d8 100%);
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 0.65rem;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    .post-date-box .day {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--coral);
+      line-height: 1;
+    }
+
+    .post-title {
+      font-family: Georgia, serif;
+      font-size: 1.1rem;
+      color: var(--teal-dark);
+      margin-bottom: 0.35rem;
+      transition: color 0.15s;
+    }
+
+    .post-box:hover .post-title { color: var(--coral); }
+
+    .post-excerpt {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .post-footer {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .post-label {
+      font-size: 0.6rem;
+      font-weight: bold;
+      padding: 0.15rem 0.5rem;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .post-label.read { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .post-label.tag { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+
+    /* ── Intro banner ── */
+    .intro-box {
+      background: linear-gradient(135deg, #fff9e6 0%, #fff5d6 100%);
+      border: 2px solid var(--mustard);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem;
+      color: #6b5a20;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6), 3px 3px 0 rgba(232, 180, 76, 0.3);
+      position: relative;
+    }
+
+    .intro-box::before {
+      content: '💡';
+      position: absolute;
+      top: -0.6rem;
+      left: 1rem;
+      background: var(--mustard);
+      border-radius: 50%;
+      width: 1.5rem;
+      height: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 4px var(--shadow);
+    }
+
+    /* ── Article section ── */
+    .article-zone {
+      margin-top: 2rem;
+      grid-column: 1 / -1;
+    }
+
+    .article-frame {
+      background: var(--cream);
+      border: 3px solid var(--teal);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 6px 6px 0 rgba(26, 158, 143, 0.25);
+    }
+
+    .article-top {
+      background: linear-gradient(90deg, var(--teal-dark), var(--teal), #2cc4b4);
+      padding: 1.25rem 1.5rem;
+      color: #fff;
+    }
+
+    .article-top .kicker {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 0.4rem;
+    }
+
+    .article-top h2 {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: normal;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .article-top .meta {
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .prose {
+      padding: 1.5rem;
+      font-size: 0.88rem;
+    }
+
+    .prose p {
+      margin-bottom: 1rem;
+      color: #444;
+    }
+
+    .prose h3 {
+      font-family: Georgia, serif;
+      font-size: 1.05rem;
+      margin: 1.75rem 0 0.6rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .prose h3:nth-of-type(1) {
+      background: linear-gradient(90deg, rgba(26,158,143,0.15), transparent);
+      border-left: 4px solid var(--teal);
+      color: var(--teal-dark);
+    }
+
+    .prose h3:nth-of-type(2) {
+      background: linear-gradient(90deg, rgba(232,93,76,0.12), transparent);
+      border-left: 4px solid var(--coral);
+      color: #b83d30;
+    }
+
+    .prose pre {
+      background: #2d2d2d;
+      color: #a9dc76;
+      border: 3px solid #1a1a1a;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.4), 0 3px 0 #111;
+    }
+
+    .prose code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.88em;
+      background: #fff3cd;
+      color: #856404;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      border: 1px solid #ffc107;
+    }
+
+    .prose .zitat {
+      margin: 1.25rem 0;
+      padding: 0.85rem 1rem 0.85rem 1.25rem;
+      background: linear-gradient(135deg, #f3e8ff 0%, #ede0f5 100%);
+      border: 2px dashed var(--plum);
+      border-radius: 8px;
+      font-family: Georgia, serif;
+      font-style: italic;
+      color: #5a3d68;
+      font-size: 0.9rem;
+      position: relative;
+    }
+
+    .prose .zitat::before {
+      content: '„';
+      font-size: 2rem;
+      color: var(--plum);
+      opacity: 0.4;
+      position: absolute;
+      top: -0.25rem;
+      left: 0.5rem;
+      line-height: 1;
+    }
+
+    /* ── Footer stamp ── */
+    .site-footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .valid-stamp {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border: 2px solid var(--lime);
+      border-radius: 4px;
+      color: var(--lime);
+      font-weight: bold;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      transform: rotate(-2deg);
+      background: rgba(106, 176, 76, 0.08);
+    }
+
+    .back-link {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 200;
+      font-size: 0.7rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 0.9rem;
+      background: linear-gradient(180deg, var(--plum), #5a3d68);
+      border: 2px solid #fff;
+      border-radius: 20px;
+      box-shadow: 0 3px 8px var(--shadow);
+      transition: transform 0.15s;
+    }
+
+    .back-link:hover { transform: scale(1.05); }
+
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { order: -1; flex-direction: row; flex-wrap: wrap; }
+      .widget { flex: 1; min-width: 10rem; }
+      .post-inner { grid-template-columns: 1fr; }
+      .post-date-box { width: fit-content; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back-link" href="index.html">← Designs</a>
+
+  <div class="page">
+
+    <div class="ribbon-wrap">
+      <header class="ribbon">
+        <h1>SpelkBlog</h1>
+        <p class="tagline">Technische Lösungen — mit Liebe zu CSS gestaltet</p>
+      </header>
+    </div>
+
+    <nav class="nav-pills">
+      <a href="#" class="active">Start</a>
+      <a href="#">Archiv</a>
+      <a href="#">Über mich</a>
+      <a href="#">RSS</a>
+      <a href="index.html" class="designs">Designs</a>
+    </nav>
+
+    <div class="layout">
+      <main>
+        <div class="intro-box">
+          Willkommen in der CSS-Wundertüte! Hier findest du Fixes für Probleme, die Google nicht kennt — Cisco, Linux, DevOps und mehr. Alles handverlesen, nichts generiert.
+        </div>
+
+        <div class="posts">
+          <a class="post-box" href="#article">
+            <div class="post-strip"></div>
+            <div class="post-inner">
+              <div class="post-date-box">
+                <span class="day">21</span>
+                Nov 2025
+              </div>
+              <div>
+                <h3 class="post-title">Cisco Catalyst Software Update Checklist</h3>
+                <p class="post-excerpt">Strukturierte Vorbereitung vor jedem Image-Update — Install Mode, Stack-Integrität, Backup.</p>
+                <div class="post-footer">
+                  <span class="post-label read">8 min</span>
+                  <span class="post-label tag">Cisco</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a class="post-box" href="#">
+            <div class="post-strip"></div>
+            <div class="post-inner">
+              <div class="post-date-box">
+                <span class="day">01</span>
+                Jul 2026
+              </div>
+              <div>
+                <h3 class="post-title">Cisco SEA NBAPI Spec Bugs</h3>
+                <p class="post-excerpt">API-Spezifikationen, die nicht halten, was sie versprechen — und wie man damit umgeht.</p>
+                <div class="post-footer">
+                  <span class="post-label read">12 min</span>
+                  <span class="post-label tag">API</span>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a class="post-box" href="#">
+            <div class="post-strip"></div>
+            <div class="post-inner">
+              <div class="post-date-box">
+                <span class="day">22</span>
+                Sep 2025
+              </div>
+              <div>
+                <h3 class="post-title">Supermicro BIOS Recovery</h3>
+                <p class="post-excerpt">Wenn das Mainboard nicht mehr bootet — Schritt für Schritt zurück ins Leben.</p>
+                <div class="post-footer">
+                  <span class="post-label read">6 min</span>
+                  <span class="post-label tag">Hardware</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </main>
+
+      <aside class="sidebar">
+        <div class="widget">
+          <div class="widget-head teal">Über mich</div>
+          <div class="widget-body">
+            <strong>Keanu Fuchs</strong><br>
+            Systems Engineer &amp; CS Student. Schreibe auf, was ich unterwegs löse.
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-head coral">Blog-Statistik</div>
+          <div class="widget-body">
+            <div class="stat-row"><span>Artikel</span><span class="stat-val">5</span></div>
+            <div class="stat-row"><span>Seit</span><span class="stat-val">2025</span></div>
+            <div class="stat-row"><span>Status</span><span class="stat-val">● live</span></div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-head plum">Themen</div>
+          <div class="widget-body">
+            <div class="badge-row">
+              <span class="mini-badge cisco">Cisco</span>
+              <span class="mini-badge linux">Linux</span>
+              <span class="mini-badge hw">Hardware</span>
+              <span class="mini-badge api">API</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Article preview -->
+      <section class="article-zone" id="article">
+        <div class="article-frame">
+          <header class="article-top">
+            <p class="kicker">Artikel-Vorschau · Typografie</p>
+            <h2>Cisco Catalyst Software Update Checklist</h2>
+            <p class="meta">Keanu Fuchs · 21. November 2025</p>
+          </header>
+
+          <div class="prose">
+            <p>Before performing a software update on network devices, thorough and structured preparation is worthwhile. This checklist guides you through all relevant checks.</p>
+
+            <h3>Check Operating Mode &amp; Version</h3>
+            <p>Execute the following commands to verify boot behavior and uptime:</p>
+            <pre>show version
+show boot</pre>
+            <p>Determine whether the system runs in <code>Install Mode</code> or <code>Bundle Mode</code>.</p>
+
+            <div class="zitat">Every problem solved is a lesson learned — and every lesson learned should be shared.</div>
+
+            <h3>Backup Configuration</h3>
+            <pre>write
+show startup-config</pre>
+            <p>External backup via <code>TFTP</code>, <code>FTP</code>, or <code>SCP</code> empfohlen.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="site-footer">
+      © 2025 Keanu Fuchs · CSS Wundertüte · Beispiel 09
+      <br>
+      <span class="valid-stamp">✓ VALID CSS3</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>
