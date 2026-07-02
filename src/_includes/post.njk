@@ -11,15 +11,17 @@ layout: layout.njk
   </nav>
 
   <div class="article-block">
-    <aside class="article-sidebar">
-      <p class="label">Article</p>
-      <h2>{{ title }}</h2>
+    <header class="article-masthead">
+      <div class="article-masthead-main">
+        <p class="label">Article</p>
+        <h2>{{ title }}</h2>
+      </div>
       <div class="meta">
         <span class="rust">Keanu Fuchs</span><br>
         {{ page.date | date('%B %d, %Y') }}<br>
         Tech Post
       </div>
-    </aside>
+    </header>
     <div class="article-content prose" id="post-content">
       {{ content | safe }}
     </div>
