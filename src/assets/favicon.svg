@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&amp;display=swap');
+      
+      .logo-text {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 380px;
+        letter-spacing: -0.05em;
+      }
+      
+      .spelk-letter {
+        font-weight: 700;
+        font-style: normal;
+        fill: #1a1714;
+      }
+      
+      .blog-letter {
+        font-weight: 400;
+        font-style: italic;
+        fill: #3d3832;
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        .spelk-letter {
+          fill: #f4efe6;
+        }
+        .blog-letter {
+          fill: #cfc5b8;
+        }
+      }
+    </style>
+  </defs>
+  
+  <!-- Centered "SB" monogram in the exact style of the page header -->
+  <text x="256" y="375" text-anchor="middle" class="logo-text">
+    <tspan class="spelk-letter">S</tspan><tspan class="blog-letter">B</tspan>
+  </text>
+</svg>

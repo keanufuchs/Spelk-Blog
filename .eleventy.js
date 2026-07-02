@@ -1,6 +1,7 @@
 module.exports = function(eleventyConfig) {
   // passt statische assets so, dass sie in _site/ kopiert werden
   eleventyConfig.addPassthroughCopy({"src/assets": "assets"});
+  eleventyConfig.addPassthroughCopy("examples");
   
   // Posts Collection erstellen
   eleventyConfig.addCollection("posts", function(collectionApi) {
@@ -11,8 +12,10 @@ module.exports = function(eleventyConfig) {
   
   // Excerpt Filter hinzufügen
   eleventyConfig.addFilter("excerpt", function(content) {
-    // Entferne Front Matter und Markdown-Syntax für cleanen Text
     let text = content;
+
+    // Strip HTML when templateContent is already rendered
+    text = text.replace(/<[^>]*>/g, ' ');
     
     // Entferne Headings (# ## ###)
     text = text.replace(/^#{1,6}\s+.*/gm, '');
@@ -47,6 +50,13 @@ module.exports = function(eleventyConfig) {
     return text;
   });
 
+  eleventyConfig.addFilter("readingTime", function(content) {
+    if (!content) return 1;
+    const text = String(content).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    const words = text ? text.split(" ").filter(Boolean).length : 0;
+    return Math.max(1, Math.ceil(words / 200));
+  });
+
   // Date filter for Nunjucks templates
   // Support commonly used formats from Liquid: '%Y-%m-%d' and '%B %d, %Y'
   eleventyConfig.addFilter("date", function(dateObj, format) {
@@ -57,6 +67,15 @@ module.exports = function(eleventyConfig) {
     }
     if (format === '%B %d, %Y') {
       return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+    if (format === '%B %Y') {
+      return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+    if (format === '%d.%m.%y') {
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = String(d.getFullYear()).slice(-2);
+      return `${day}.${month}.${year}`;
     }
     // Fallback: return ISO string
     return d.toISOString();

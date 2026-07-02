@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SpelkBlog — Neo Personal Web</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #e8e4dc;
+      --bg-sidebar: #d4cfc4;
+      --bg-content: #faf8f4;
+      --text: #333;
+      --text-light: #666;
+      --link: #8b4513;
+      --link-hover: #a0522d;
+      --border: #c4bdb0;
+      --accent: #5c4a3a;
+      --code-bg: #2d2d2d;
+    }
+
+    html { font-size: 15px; }
+
+    body {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Linen texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1v1H0zm2 2h1v1H2z' fill='%23000' fill-opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .wrapper {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+      position: relative;
+    }
+
+    /* Classic banner */
+    .banner {
+      background: linear-gradient(180deg, #6b5b4f 0%, #4a3f36 100%);
+      border: 1px solid #3a322a;
+      border-radius: 8px 8px 0 0;
+      padding: 1.75rem 2rem;
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .banner h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 2.2rem;
+      font-weight: normal;
+      color: #f5f0e8;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      letter-spacing: 0.05em;
+    }
+
+    .banner .subtitle {
+      font-family: Georgia, serif;
+      font-style: italic;
+      color: #c9bfb0;
+      font-size: 0.9rem;
+      margin-top: 0.35rem;
+    }
+
+    /* Tab navigation */
+    .tabs {
+      display: flex;
+      background: var(--bg-sidebar);
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+
+    .tabs a {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-decoration: none;
+      padding: 0.6rem 1.25rem;
+      border-right: 1px solid var(--border);
+      background: linear-gradient(180deg, #ddd8ce 0%, #d4cfc4 100%);
+      transition: background 0.15s;
+    }
+
+    .tabs a:hover {
+      background: linear-gradient(180deg, #e8e4dc 0%, #ddd8ce 100%);
+      color: var(--text);
+    }
+
+    .tabs a.active {
+      background: var(--bg-content);
+      color: var(--accent);
+      font-weight: bold;
+      border-bottom: 1px solid var(--bg-content);
+      margin-bottom: -1px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Main layout with sidebar */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      border: 1px solid var(--border);
+      border-top: none;
+      background: var(--bg-content);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    @media (min-width: 700px) {
+      .main-layout { grid-template-columns: 220px 1fr; }
+    }
+
+    .sidebar {
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem;
+      font-size: 0.8rem;
+    }
+
+    .sidebar-section {
+      margin-bottom: 1.75rem;
+    }
+
+    .sidebar-section h3 {
+      font-family: Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: var(--accent);
+      border-bottom: 1px dotted var(--border);
+      padding-bottom: 0.35rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .sidebar-section ul {
+      list-style: none;
+    }
+
+    .sidebar-section li {
+      margin-bottom: 0.35rem;
+    }
+
+    .sidebar-section a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .sidebar-section a:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border: 3px solid #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      background: linear-gradient(135deg, #8b7355, #6b5b4f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Georgia, serif;
+      font-size: 1.8rem;
+      color: #f5f0e8;
+      margin: 0 auto 1rem;
+    }
+
+    .about-text {
+      text-align: center;
+      color: var(--text-light);
+      line-height: 1.5;
+      font-size: 0.75rem;
+    }
+
+    .content {
+      padding: 1.75rem 2rem;
+    }
+
+    /* Welcome box */
+    .welcome-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .welcome-box h2 {
+      font-family: Georgia, serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-box p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    /* Post entries */
+    .post-entry {
+      padding: 1.25rem 0;
+      border-bottom: 1px dotted var(--border);
+    }
+
+    .post-entry:last-child { border-bottom: none; }
+
+    .post-entry h3 {
+      font-family: Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: normal;
+      margin-bottom: 0.25rem;
+    }
+
+    .post-entry h3 a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .post-entry h3 a:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+
+    .post-meta {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .post-meta a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .post-excerpt {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .read-more {
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .read-more a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .read-more a:hover { text-decoration: underline; }
+
+    /* Article preview */
+    .article-preview {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .article-preview .preview-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    .article-preview h1 {
+      font-family: Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: normal;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .article-preview .byline {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dotted var(--border);
+    }
+
+    .article-preview h2 {
+      font-family: Georgia, serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .article-preview p {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .article-preview blockquote {
+      margin: 1.25rem 0;
+      padding: 0.75rem 1rem;
+      background: #f0ebe3;
+      border-left: 3px solid var(--accent);
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .article-preview pre {
+      background: var(--code-bg);
+      color: #f8f8f2;
+      padding: 1rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      border-radius: 3px;
+      margin: 1rem 0;
+    }
+
+    .article-preview code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      background: #f0ebe3;
+      padding: 0.1em 0.3em;
+      border-radius: 2px;
+    }
+
+    /* Footer */
+    .site-footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.7rem;
+      color: var(--text-light);
+      border: 1px solid var(--border);
+      border-top: none;
+      background: var(--bg-sidebar);
+      border-radius: 0 0 8px 8px;
+    }
+
+    .site-footer a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .site-footer a:hover { text-decoration: underline; }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.4rem;
+      border-radius: 2px;
+      margin: 0.15rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="banner">
+      <h1>SpelkBlog</h1>
+      <p class="subtitle">Keanu's Tech Notes &amp; Solutions</p>
+    </header>
+
+    <nav class="tabs">
+      <a href="#" class="active">Home</a>
+      <a href="#">Archiv</a>
+      <a href="#">Über mich</a>
+      <a href="#">Links</a>
+      <a href="index.html">Designs</a>
+    </nav>
+
+    <div class="main-layout">
+      <aside class="sidebar">
+        <div class="avatar">KF</div>
+        <p class="about-text">
+          Systems Engineer &amp; CS Student aus Deutschland. Schreibe auf, was ich unterwegs löse.
+        </p>
+
+        <div class="sidebar-section" style="margin-top: 1.5rem;">
+          <h3>Kategorien</h3>
+          <ul>
+            <li><a href="#">Linux (2)</a></li>
+            <li><a href="#">Cisco (1)</a></li>
+            <li><a href="#">Hardware (1)</a></li>
+            <li><a href="#">DevOps (1)</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>Zuletzt</h3>
+          <ul>
+            <li><a href="#">NBAPI Spec Bugs</a></li>
+            <li><a href="#">Update-Checkliste</a></li>
+            <li><a href="#">Minecraft Boot</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>Status</h3>
+          <span class="badge">5 Posts</span><br>
+          <span class="badge">Aktiv</span>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="welcome-box">
+          <h2>Willkommen</h2>
+          <p>Dies ist mein persönliches Notizbuch für technische Probleme — die Art, bei der Google keine Antwort hat. Wenn dir etwas hilft, war das Dokumentieren schon wert.</p>
+        </div>
+
+        <article class="post-entry">
+          <h3><a href="#">Cisco SEA NBAPI: Spezifikationsfehler in der Praxis</a></h3>
+          <p class="post-meta">1. Juli 2026 · in <a href="#">Cisco</a>, <a href="#">Networking</a></p>
+          <p class="post-excerpt">Wenn die offizielle API-Dokumentation widersprüchlich ist und der Support keine Antwort hat — ein detaillierter Blick auf die NBAPI-Spezifikation.</p>
+          <p class="read-more"><a href="#">Weiterlesen →</a></p>
+        </article>
+
+        <article class="post-entry">
+          <h3><a href="#">Software-Update-Checkliste für Produktionssysteme</a></h3>
+          <p class="post-meta">21. November 2025 · in <a href="#">DevOps</a></p>
+          <p class="post-excerpt">Eine strukturierte Checkliste, die ich nach zu vielen nächtlichen Deployments selbst geschrieben habe.</p>
+          <p class="read-more"><a href="#">Weiterlesen →</a></p>
+        </article>
+
+        <article class="post-entry">
+          <h3><a href="#">Minecraft Server Boot: Automatisierung mit systemd</a></h3>
+          <p class="post-meta">22. September 2025 · in <a href="#">Linux</a></p>
+          <p class="post-excerpt">Wie ein Minecraft-Server zuverlässig startet, auch wenn niemand zuschaut.</p>
+          <p class="read-more"><a href="#">Weiterlesen →</a></p>
+        </article>
+
+        <article class="post-entry">
+          <h3><a href="#">BIOS Recovery auf Supermicro-Boards</a></h3>
+          <p class="post-meta">21. September 2025 · in <a href="#">Hardware</a></p>
+          <p class="post-excerpt">Brick kein Board — eine Schritt-für-Schritt-Anleitung für den Notfall.</p>
+          <p class="read-more"><a href="#">Weiterlesen →</a></p>
+        </article>
+
+        <section class="article-preview">
+          <p class="preview-label">— Artikel-Vorschau —</p>
+          <h1>BIOS Recovery auf Supermicro-Boards</h1>
+          <p class="byline">Von Keanu Fuchs · 21. September 2025</p>
+
+          <p>Nichts ist schlimmer als ein gebricktes Mainboard mitten in einem Upgrade. Supermicro bietet zwar Recovery-Mechanismen, aber die Dokumentation ist — gelinde gesagt — spärlich.</p>
+
+          <h2>Voraussetzungen</h2>
+          <p>Bevor du anfängst, brauchst du einen USB-Stick, die korrekte BIOS-Datei vom Supermicro-Support-Portal und vor allem Geduld.</p>
+
+          <blockquote>Immer zuerst ein Backup der aktuellen Konfiguration ziehen — auch wenn du denkst, du brauchst es nicht.</blockquote>
+
+          <pre>$ ipmitool -I lanplus -H 192.168.1.100 \
+    -U ADMIN -P password chassis bootdev floppy
+$ flashrom -p internal -w bios.rom</pre>
+
+          <p>Der Rest ist Routine — solange du die richtige Datei hast.</p>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <p>© 2025 Keanu Fuchs · Built with Eleventy</p>
+      <p><a href="index.html">← Zurück zur Design-Übersicht</a></p>
+    </footer>
+  </div>
+</body>
+</html>

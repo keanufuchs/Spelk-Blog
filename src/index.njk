@@ -1,0 +1,70 @@
+---
+layout: layout.njk
+title: "SpelkBlog - Home"
+---
+
+<section class="hero">
+  <p class="hero-statement">
+    Technical solutions for problems that <em>Google doesn't have the answer to</em> — a personal notebook, publicly readable.
+  </p>
+  <div class="hero-meta">
+    <strong>Focus</strong>
+    Linux · Cisco · DevOps<br>
+    Hardware · APIs · Ops
+    <br><br>
+    <strong>Status</strong>
+    {{ collections.posts.length }} Solutions · Updated {{ collections.posts[0].date | date('%B %Y') }}
+    <div class="hero-stats">
+      <div class="stat-cell">
+        <div class="num">{{ collections.posts.length }}</div>
+        <div class="label">Solutions</div>
+      </div>
+      <div class="stat-cell">
+        <div class="num">100%</div>
+        <div class="label">Tested</div>
+      </div>
+      <div class="stat-cell">
+        <div class="num">∞</div>
+        <div class="label">Hours Saved</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-label"><span>Latest Solutions</span></div>
+
+<table class="post-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Date</th>
+      <th>Title</th>
+      <th>Tag</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in collections.posts %}
+    <tr onclick="window.location.href='{{ post.url }}'">
+      <td class="num">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</td>
+      <td class="date">{{ post.date | date('%d.%m.%y') }}</td>
+      <td>
+        <a class="title-link" href="{{ post.url }}">{{ post.data.title }}</a>
+        <p class="desc">{{ post.templateContent | excerpt | safe }}</p>
+        <p class="meta-inline">{{ post.templateContent | readingTime }} min read</p>
+      </td>
+      <td class="tag-cell"><span class="tag">Tech</span></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="cta-block">
+  <h3>Got a tech problem?</h3>
+  <p>If you found a solution to something that's not covered here, or have a tech mystery that needs solving, let's connect!</p>
+  <a href="/about/" class="cta-link">
+    Get in Touch
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+    </svg>
+  </a>
+</div>

@@ -2,39 +2,37 @@
 layout: layout.njk
 ---
 
-<!-- Table of Contents - Positioned relative to content -->
 <div class="relative">
-  <nav id="toc" class="toc-nav">
+  <nav id="toc" class="toc-nav" aria-label="Table of contents">
     <div class="toc-header">
       <h3>On this page</h3>
     </div>
-    <ul id="toc-list" class="toc-list">
-      <!-- TOC wird dynamisch generiert -->
-    </ul>
+    <ul id="toc-list" class="toc-list"></ul>
   </nav>
 
-  <article class="prose prose-lg max-w-none">
-    <header class="mb-8 pb-6 border-b border-gray-200 dark:border-gray-800">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight !mt-0">{{ title }}</h1>
-      <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
-        <time class="font-medium" datetime="{{ page.date | date('%Y-%m-%d') }}">
-          {{ page.date | date('%B %d, %Y') }}
-        </time>
-        <span class="mx-2">•</span>
-        <span>Tech Post</span>
+  <div class="article-block">
+    <header class="article-masthead">
+      <div class="article-masthead-main">
+        <p class="label">Article</p>
+        <h2>{{ title }}</h2>
+      </div>
+      <div class="meta">
+        <span class="rust">Keanu Fuchs</span><br>
+        {{ page.date | date('%B %d, %Y') }}<br>
+        Tech Post
       </div>
     </header>
-
-    <div class="prose prose-lg max-w-none" id="post-content">
+    <div class="article-content prose" id="post-content">
       {{ content | safe }}
     </div>
-  </article>
+  </div>
 
-<nav class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-  <a href="/" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200">
-    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-    </svg>
-    Back to Home
-  </a>
-</nav>
+  <nav class="post-nav" aria-label="Post navigation">
+    <a href="/" class="back-home">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to Home
+    </a>
+  </nav>
+</div>
