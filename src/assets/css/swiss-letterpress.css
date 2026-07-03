@@ -205,6 +205,42 @@ h1.site-title span {
   margin-bottom: 0.2rem;
 }
 
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .hero-stats { display: none; }
+}
+
+.stat-cell {
+  border: 1px solid var(--rule);
+  padding: 0.75rem;
+  text-align: center;
+  background: rgba(244, 239, 230, 0.6);
+}
+
+.stat-cell .num {
+  font-family: 'Fraunces', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--rust);
+  line-height: 1.2;
+}
+
+.stat-cell .label {
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
 /* ── Section label ── */
 .section-label {
   display: flex;
